@@ -1,0 +1,1838 @@
+:root {
+  /* Light engineering theme — text colors meet WCAG AA on the paper-white surfaces. */
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-2: #f6f8fb;
+  --color-surface-3: #eef1f6;
+  --color-line: rgba(16, 24, 40, 0.1);
+  --color-line-strong: rgba(16, 24, 40, 0.2);
+  --color-text: #14181f;
+  --color-text-secondary: #3d4654;
+  --color-text-muted: #5b6573;
+  /* Data accent — reserved for effective viewport numbers. */
+  --color-accent: #15803d;
+  /* Interactive accent — buttons, focus, links. */
+  --color-action: #3457d5;
+  --color-minus: #9c4a12;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+
+  color: var(--color-text);
+  color-scheme: light;
+  background: var(--color-bg);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  /* Faint blueprint dot grid behind everything. */
+  background-image: radial-gradient(circle, rgba(16, 24, 40, 0.06) 1px, transparent 1px);
+  background-size: 26px 26px;
+  margin: 0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.app {
+  display: grid;
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 1rem 1.25rem 3rem;
+}
+
+/* ---------- Header ---------- */
+
+.app-header {
+  padding: 1.25rem 1rem 0.5rem;
+  text-align: center;
+}
+
+.app-header h1 {
+  color: var(--color-text);
+  font-size: clamp(2.1rem, 5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+  margin: 0 auto;
+}
+
+.app-header h1 a {
+  border-radius: 0.3rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-header h1 a:focus-visible {
+  outline: 2px solid var(--color-action);
+  outline-offset: 4px;
+}
+
+/* Same grid glyph as the Canvas button — one brand mark across the app. */
+.app-header h1::after {
+  color: var(--color-accent);
+  content: "▦";
+  font-weight: 400;
+  margin-left: 0.18em;
+}
+
+.eyebrow {
+  margin: 0 0 0.45rem;
+  color: var(--color-action);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.muted {
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+.app-header__tagline {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 2vw, 0.98rem);
+  margin: 0.55rem auto 0;
+}
+
+.muted--small {
+  font-size: 0.82rem;
+  margin-bottom: 0;
+}
+
+.button {
+  align-items: center;
+  background: var(--color-action);
+  border: 0;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 700;
+  justify-content: center;
+  padding: 0.7rem 1rem;
+  text-decoration: none;
+  transition: background 120ms ease;
+}
+
+.button:hover {
+  background: #2947b8;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.button--secondary {
+  background: var(--color-surface-3);
+  box-shadow: inset 0 0 0 1px var(--color-line-strong);
+  color: var(--color-text);
+}
+
+.button--secondary:hover {
+  background: #e3e8f0;
+}
+
+.button--ghost {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  color: inherit;
+}
+
+.button--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Panels ---------- */
+
+.panel {
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  background: var(--color-surface);
+  padding: 1.1rem;
+}
+
+.panel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+  letter-spacing: -0.03em;
+}
+
+/* The live metric renders as a dark terminal card on the light page. */
+.panel--accent {
+  background: #14181f;
+  border-color: #14181f;
+  color: #ffffff;
+}
+
+.panel--accent .muted,
+.panel--accent .eyebrow {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ---------- Safe viewport summary ---------- */
+
+.safe-summary {
+  display: grid;
+  gap: 1rem;
+}
+
+.safe-summary__intro h2 {
+  font-size: 1.55rem;
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  margin: 0 0 0.45rem;
+}
+
+/* The verb carries the message — underline it with the data color. */
+.safe-summary__intro h2::after {
+  background: var(--color-accent);
+  content: '';
+  display: block;
+  height: 3px;
+  margin-top: 0.4rem;
+  width: 2.6rem;
+}
+
+/* Key messaging of the page — must read as body text, not as a caption. */
+.safe-summary__intro p {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 80ch;
+}
+
+.safe-summary__grid {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fixed row sizes keep every card the same height regardless of content. */
+.safe-summary__card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 0.6rem;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-rows: 2rem auto 2.6rem 1fr;
+  padding: 1rem;
+  transition: border-color 160ms ease;
+}
+
+.safe-summary__card:hover {
+  border-color: var(--color-line-strong);
+}
+
+.safe-summary__thumb-area {
+  align-items: center;
+  background:
+    radial-gradient(circle, rgba(16, 24, 40, 0.08) 1px, transparent 1px) 0 0 / 12px 12px,
+    var(--color-surface-2);
+  border: 1px solid var(--color-line);
+  border-radius: 0.45rem;
+  display: flex;
+  height: 6.5rem;
+  justify-content: center;
+}
+
+/* The lit screen — viewport area carries the data accent. */
+.safe-summary__thumb {
+  background: rgba(21, 128, 61, 0.08);
+  border: 1px solid var(--color-accent);
+  border-radius: 3px;
+}
+
+.safe-summary__size small {
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Classic-scrollbar note gets its own line so the size never overflows the card. */
+.safe-summary__size-note {
+  display: block;
+  letter-spacing: 0;
+  margin-top: 0.1rem;
+}
+
+.safe-summary__category {
+  color: var(--color-text-secondary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.safe-summary__size {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 1.35rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.safe-summary__source {
+  align-content: start;
+  color: var(--color-text-muted);
+  display: grid;
+  font-size: 0.76rem;
+  gap: 0.2rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.safe-summary__source > div {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.safe-summary__source dt {
+  color: var(--color-action);
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  min-width: 1.9em;
+  text-transform: uppercase;
+}
+
+.safe-summary__source dd {
+  margin: 0;
+}
+
+/* ---------- Toolbar (measure page) ---------- */
+
+.toolbar__group {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.toolbar__label {
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* ---------- Filter bar (devices page) ---------- */
+
+.filter-bar {
+  align-items: center;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.1rem;
+  padding: 0.65rem 1rem;
+  position: sticky;
+  top: 0.5rem;
+  z-index: 30;
+}
+
+.filter-bar__toggle {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  justify-content: space-between;
+  letter-spacing: 0.07em;
+  padding: 0.15rem 0.1rem;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.filter-bar__chevron {
+  transition: transform 200ms ease;
+}
+
+.filter-bar__chevron--open {
+  transform: rotate(180deg);
+}
+
+.filter-bar__items {
+  align-items: flex-end;
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+}
+
+/* Label above its control — reads like a proper toolbar. */
+.filter-bar__item {
+  display: grid;
+  gap: 0.3rem;
+  justify-items: start;
+}
+
+.filter-bar__item > span {
+  color: var(--color-text-muted);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.filter-bar__item--grow {
+  flex: 1 1 240px;
+}
+
+/* ---------- Segmented control ---------- */
+
+/* All filter controls share one fixed height so the toolbar row lines up. */
+.segmented {
+  align-items: stretch;
+  background: var(--color-surface-3);
+  border: 1px solid var(--color-line);
+  border-radius: 0.5rem;
+  display: inline-flex;
+  gap: 2px;
+  height: 2.25rem;
+  margin: 0;
+  min-width: 0;
+  padding: 3px;
+}
+
+.segmented__option {
+  background: transparent;
+  border: 0;
+  border-radius: 0.32rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.26rem 0.6rem;
+  transition:
+    background 140ms ease,
+    color 140ms ease;
+  white-space: nowrap;
+}
+
+.segmented__option:hover {
+  color: var(--color-text);
+}
+
+.segmented__option--active {
+  background: var(--color-surface);
+  box-shadow:
+    inset 0 0 0 1px var(--color-line),
+    0 1px 2px rgba(16, 24, 40, 0.08);
+  color: var(--color-text);
+}
+
+.segmented__option:focus-visible {
+  outline: 2px solid rgba(52, 87, 213, 0.45);
+  outline-offset: 1px;
+}
+
+.filter-bar__select,
+.filter-bar__url {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 0.5rem;
+  color: var(--color-text);
+  font-size: 0.86rem;
+  font-weight: 500;
+  height: 2.25rem;
+  padding: 0 0.65rem;
+  transition:
+    background 140ms ease,
+    border-color 140ms ease;
+}
+
+.filter-bar__select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%235b6573' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 0.7rem;
+  padding-right: 1.7rem;
+}
+
+.filter-bar__select:hover,
+.filter-bar__url:hover {
+  border-color: rgba(16, 24, 40, 0.35);
+}
+
+.filter-bar__select:focus-visible,
+.filter-bar__url:focus-visible {
+  border-color: rgba(52, 87, 213, 0.6);
+  outline: 2px solid rgba(52, 87, 213, 0.3);
+  outline-offset: 1px;
+}
+
+.filter-bar__url {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  justify-self: stretch;
+  min-width: 9rem;
+  width: 100%;
+}
+
+/* Floating switch to the canvas view — global, so it lives outside the filter. */
+.canvas-fab {
+  align-items: center;
+  background: #14181f;
+  border: 0;
+  border-radius: 0.6rem;
+  bottom: 1.5rem;
+  box-shadow:
+    0 4px 14px rgba(16, 24, 40, 0.25),
+    0 14px 40px rgba(16, 24, 40, 0.18);
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.95rem;
+  font-weight: 800;
+  gap: 0.6rem;
+  letter-spacing: 0.01em;
+  padding: 0.85rem 1.4rem;
+  position: fixed;
+  right: 1.5rem;
+  transition: background 140ms ease;
+  z-index: 30;
+}
+
+.canvas-fab > span {
+  color: #4ade80;
+}
+
+.canvas-fab:hover {
+  background: #232936;
+}
+
+.canvas-fab:focus-visible {
+  outline: 2px solid rgba(52, 87, 213, 0.6);
+  outline-offset: 3px;
+}
+
+/* ---------- Device list ---------- */
+
+.device-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.device-group__title {
+  align-items: center;
+  color: var(--color-text-secondary);
+  display: flex;
+  font-size: 0.78rem;
+  font-weight: 700;
+  gap: 0.65rem;
+  letter-spacing: 0.14em;
+  margin: 0.85rem 0 0;
+  text-transform: uppercase;
+}
+
+.device-group__title::after {
+  background: linear-gradient(90deg, var(--color-line-strong), transparent);
+  content: "";
+  flex: 1;
+  height: 1px;
+}
+
+.device-group__count {
+  background: var(--color-surface-3);
+  border-radius: 999px;
+  color: var(--color-action);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0;
+  padding: 0.12rem 0.55rem;
+}
+
+.device-list {
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.device-row {
+  border: 1px solid var(--color-line);
+  border-radius: 0.6rem;
+  background: var(--color-surface);
+  overflow: hidden;
+  transition: border-color 160ms ease;
+}
+
+.device-row:hover {
+  border-color: var(--color-line-strong);
+}
+
+.device-row--expanded {
+  border-color: rgba(52, 87, 213, 0.45);
+}
+
+.device-row__header {
+  align-items: center;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  padding-right: 0.85rem;
+}
+
+.device-row__header:hover {
+  background: var(--color-surface-2);
+}
+
+.device-row__summary {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr auto;
+  padding: 0.8rem 1rem;
+  text-align: left;
+  width: 100%;
+}
+
+.device-row__summary:focus-visible {
+  outline: 2px solid rgba(52, 87, 213, 0.45);
+  outline-offset: -2px;
+}
+
+.device-row__open {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 0.45rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.95rem;
+  font-weight: 700;
+  height: 2rem;
+  justify-content: center;
+  transition:
+    background 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease;
+  width: 2rem;
+}
+
+.device-row__open:hover {
+  background: var(--color-action);
+  border-color: var(--color-action);
+  color: #ffffff;
+}
+
+.device-row__open:focus-visible {
+  outline: 2px solid rgba(52, 87, 213, 0.45);
+  outline-offset: 1px;
+}
+
+.device-row__identity {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.device-row__label {
+  font-weight: 700;
+}
+
+.device-row__meta {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+.device-row__viewport {
+  display: grid;
+  gap: 0.1rem;
+  justify-items: end;
+  text-align: right;
+}
+
+.device-row__viewport strong {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 1.12rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.device-row__viewport small {
+  color: var(--color-text-muted);
+  font-size: 0.74rem;
+}
+
+.badge {
+  background: transparent;
+  border: 1px solid rgba(146, 95, 22, 0.45);
+  border-radius: 0.35rem;
+  color: #8a5a10;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.22rem 0.5rem;
+  text-transform: uppercase;
+}
+
+.badge--verified {
+  border-color: rgba(21, 128, 61, 0.45);
+  color: var(--color-accent);
+}
+
+.device-row__detail {
+  background: var(--color-surface-2);
+  border-top: 1px solid var(--color-line);
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.25rem;
+}
+
+/* The wireframe column flexes and centers — no dead gap between text and device. */
+.device-row__columns {
+  align-items: start;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, 34rem) minmax(0, 1fr);
+}
+
+.device-row__columns > .wireframe {
+  justify-self: center;
+}
+
+.device-row__info {
+  display: grid;
+  gap: 1rem;
+}
+
+.detail-heading {
+  color: var(--color-text-secondary);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  margin: 0 0 0.65rem;
+  text-transform: uppercase;
+}
+
+.breakdown-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 0.6rem;
+  padding: 1rem 1.2rem;
+}
+
+.breakdown {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.breakdown__line {
+  align-items: baseline;
+  display: grid;
+  gap: 0.2rem 1rem;
+  grid-template-columns: 1fr auto;
+}
+
+.breakdown__line dt {
+  color: var(--color-text-secondary);
+  display: grid;
+  font-size: 0.9rem;
+}
+
+.breakdown__line dt small {
+  color: var(--color-text-muted);
+  font-size: 0.76rem;
+}
+
+.breakdown__line dd {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  margin: 0;
+}
+
+.breakdown__line--minus dd {
+  color: var(--color-minus);
+}
+
+.breakdown__line--total {
+  border-top: 1px solid var(--color-line-strong);
+  margin-top: 0.25rem;
+  padding-top: 0.5rem;
+}
+
+.breakdown__line--total dt {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.breakdown__line--total dd {
+  color: var(--color-accent);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.breakdown__line--scrolled dd {
+  color: var(--color-accent);
+}
+
+.device-row__notes ul {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding-left: 1.15rem;
+}
+
+.device-row__notes li {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.device-row__actions {
+  align-items: start;
+  border-top: 1px solid var(--color-line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  padding-top: 1rem;
+}
+
+.device-row__devtools {
+  border-top: 1px solid var(--color-line);
+  padding-top: 1rem;
+}
+
+.dataset-note {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-left: 3px solid var(--color-action);
+  border-radius: 0.6rem;
+  color: var(--color-text-muted);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  margin: 0.5rem 0 0;
+  padding: 0.85rem 1.1rem;
+}
+
+/* ---------- Measure page ---------- */
+
+.measure-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.metric {
+  color: #4ade80;
+  font-family: var(--font-mono);
+  margin: 0.5rem 0 1rem;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+
+.facts,
+.measurement-summary {
+  display: grid;
+  gap: 0.4rem 0.75rem;
+  grid-template-columns: auto 1fr;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.facts dt {
+  color: var(--color-text-muted);
+}
+
+.facts dd {
+  font-family: var(--font-mono);
+  margin: 0;
+  font-weight: 600;
+}
+
+.measurement-summary dt {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.measurement-summary dd {
+  font-family: var(--font-mono);
+  margin: 0;
+  font-weight: 700;
+}
+
+.warning {
+  background: #fff7db;
+  border: 1px solid rgba(146, 95, 22, 0.3);
+  border-radius: 0.6rem;
+  color: #76551b;
+  margin-top: 0.85rem;
+  padding: 0.8rem;
+}
+
+.contribution-fields {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin: 0.85rem 0;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 500;
+  padding: 0.7rem 0.9rem;
+}
+
+.toggle-group {
+  border: 0;
+  margin: 0 0 0.85rem;
+  padding: 0;
+}
+
+.toggle-group legend {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.45rem;
+  padding: 0;
+}
+
+.toggle-grid {
+  display: grid;
+  gap: 0.45rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.toggle-card {
+  align-items: center;
+  border: 1px solid var(--color-line);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+  min-height: 2.45rem;
+  padding: 0.45rem 0.65rem;
+  position: relative;
+}
+
+.toggle-card:hover,
+.toggle-card:has(.switch-input:checked) {
+  background: var(--color-surface-2);
+}
+
+.toggle-card:has(.switch-input:checked) {
+  border-color: rgba(52, 87, 213, 0.45);
+}
+
+.toggle-card:focus-within {
+  outline: 2px solid rgba(52, 87, 213, 0.35);
+  outline-offset: 2px;
+}
+
+.switch-input {
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 1px;
+}
+
+.switch-control {
+  border-radius: 999px;
+  background: #d3dae3;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 1.15rem;
+  padding: 0.14rem;
+  transition: background 160ms ease;
+  width: 2rem;
+}
+
+.switch-control::before {
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.3);
+  content: "";
+  display: block;
+  height: 0.87rem;
+  transition: transform 160ms ease;
+  width: 0.87rem;
+}
+
+.switch-input:checked + .switch-control {
+  background: var(--color-action);
+}
+
+.switch-input:checked + .switch-control::before {
+  transform: translateX(0.85rem);
+}
+
+.confirm-card {
+  align-items: flex-start;
+  border: 1px solid rgba(52, 87, 213, 0.3);
+  border-radius: 0.6rem;
+  background: var(--color-surface-2);
+  cursor: pointer;
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  padding: 0.85rem;
+}
+
+.confirm-card span {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.confirm-card small {
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+/* ---------- Quick capture (QR) ---------- */
+
+.qr-block {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: center;
+  padding: 0.5rem 0;
+}
+
+.qr-block__code {
+  border: 1px solid var(--color-line);
+  border-radius: 0.6rem;
+  background: #ffffff;
+  padding: 0.75rem;
+}
+
+/* ---------- Import page ---------- */
+
+.import-panel {
+  margin: 10vh auto 0;
+  max-width: 30rem;
+  width: 100%;
+}
+
+.field--on-accent {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 1rem 0;
+}
+
+/* ---------- Measurement queue ---------- */
+
+.queue-list {
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0 0 0.85rem;
+  padding: 0;
+}
+
+.queue-list__item {
+  border: 1px solid var(--color-line);
+  border-radius: 0.5rem;
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.6rem 0.85rem;
+}
+
+.queue-list__row {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.queue-list__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.button--small {
+  font-size: 0.82rem;
+  padding: 0.35rem 0.7rem;
+}
+
+.queue-list__identity {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.queue-list__identity small {
+  color: var(--color-text-muted);
+}
+
+.queue-list__remove {
+  background: transparent;
+  border: 0;
+  border-radius: 0.4rem;
+  color: #b3261e;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.35rem 0.5rem;
+}
+
+.queue-list__remove:hover {
+  background: #fdeaea;
+}
+
+/* ---------- Wireframe ---------- */
+
+.wireframe {
+  display: grid;
+  gap: 0.65rem;
+  justify-items: center;
+  margin: 0;
+}
+
+.wireframe__screen {
+  background: #101a30;
+  border: 2px solid #1d2a47;
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(16, 24, 40, 0.18);
+  display: flex;
+  overflow: hidden;
+}
+
+.wireframe__column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.wireframe__bar-group {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.wireframe__bar {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.wireframe__bar--os {
+  background: linear-gradient(180deg, #45557a, #3c4c70);
+}
+
+.wireframe__bar--browser {
+  background: linear-gradient(180deg, #64799f, #59709a);
+}
+
+.wireframe__bar--collapsible {
+  background: repeating-linear-gradient(-45deg, #64799f, #64799f 4px, #7d92ba 4px, #7d92ba 8px);
+}
+
+.wireframe__bar--bookmarks {
+  background: linear-gradient(180deg, #8d7fd0, #7c6cc4);
+}
+
+.wireframe__bar--side {
+  height: 100%;
+}
+
+.wireframe__bar-label {
+  color: #e6ecf8;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.wireframe__viewport {
+  align-items: center;
+  background: rgba(21, 128, 61, 0.1);
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Live page preview, rendered at real viewport size and scaled down.
+   pointer-events off so the hover scroll simulation keeps working. */
+.wireframe__preview {
+  background: #ffffff;
+  border: 0;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.wireframe__size {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* Home-indicator overlap — only drawn when the bottom chrome no longer covers it. */
+.wireframe__safe-area {
+  border-top: 1px dashed rgba(21, 128, 61, 0.5);
+  background: rgba(21, 128, 61, 0.08);
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.wireframe__safe-area--bottom {
+  bottom: 0;
+}
+
+/* Space-taking scrollbar — drawn as track + thumb so it reads as a scrollbar. */
+.wireframe__scrollbar {
+  background: rgba(16, 24, 40, 0.12);
+  border-left: 1px solid rgba(16, 24, 40, 0.3);
+  bottom: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.wireframe__scrollbar::after {
+  background: rgba(16, 24, 40, 0.45);
+  border-radius: 2px;
+  bottom: 55%;
+  content: '';
+  left: 1px;
+  position: absolute;
+  right: 1px;
+  top: 12%;
+}
+
+.wireframe__caption {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  text-align: center;
+  width: 100%;
+}
+
+.wireframe__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.75rem;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.wireframe__legend-item {
+  align-items: center;
+  color: var(--color-text-muted);
+  cursor: default;
+  display: inline-flex;
+  font-size: 0.72rem;
+  gap: 0.35rem;
+}
+
+.wireframe__legend-swatch {
+  border-radius: 3px;
+  flex-shrink: 0;
+  height: 0.7rem;
+  width: 0.7rem;
+}
+
+/* Looks like a tiny page — the viewport area renders the live preview. */
+.wireframe__legend-swatch--viewport {
+  background: #ffffff;
+  border: 1px solid var(--color-line-strong);
+}
+
+.wireframe__legend-swatch--safe-area {
+  background: rgba(21, 128, 61, 0.08);
+  border: 1px dashed rgba(21, 128, 61, 0.6);
+}
+
+.wireframe__legend-swatch--scrollbar {
+  background: rgba(16, 24, 40, 0.16);
+  border: 1px solid rgba(16, 24, 40, 0.28);
+}
+
+@media (max-width: 760px) {
+  .device-row__columns {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .device-row__info {
+    justify-items: stretch;
+    max-width: none;
+    width: 100%;
+  }
+
+  /* Wide desktop wireframes scroll instead of breaking the layout. */
+  .wireframe {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+/* ---------- DevTools guide ---------- */
+
+.devtools-guide {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 0.6rem;
+  padding: 0.85rem 1rem;
+}
+
+.devtools-guide__steps {
+  color: var(--color-text-secondary);
+  font-size: 0.88rem;
+  margin: 0 0 0.75rem;
+}
+
+.devtools-guide__steps kbd {
+  background: var(--color-surface-3);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  padding: 0.05rem 0.35rem;
+}
+
+.devtools-guide__fields {
+  align-items: center;
+  display: grid;
+  gap: 0.5rem 1.5rem;
+  grid-template-columns: max-content minmax(0, 1fr);
+  margin: 0;
+}
+
+/* Rows render as contents so labels and values align across the whole table. */
+.devtools-guide__field {
+  display: contents;
+}
+
+.devtools-guide__field dt {
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.devtools-guide__field dt small {
+  color: var(--color-text-muted);
+  display: block;
+  font-weight: 400;
+}
+
+.devtools-guide__field dd {
+  margin: 0;
+}
+
+.devtools-guide__chip {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 0.4rem;
+  color: var(--color-text);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+  text-align: left;
+}
+
+.devtools-guide__chip:hover {
+  border-color: var(--color-action);
+  color: var(--color-action);
+}
+
+/* ---------- Footer ---------- */
+
+.app-footer {
+  color: var(--color-text-secondary);
+  margin-top: 1rem;
+  padding: 0 0 1rem;
+}
+
+.app-footer h2 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+/* ---------- Canvas view (deliberately dark — frames pop on a dark board) ---------- */
+
+.canvas-board {
+  background: #0a0c10;
+  color-scheme: dark;
+  display: flex;
+  flex-direction: column;
+  inset: 0;
+  position: fixed;
+  z-index: 100;
+}
+
+.canvas-board__toolbar {
+  align-items: center;
+  background: rgba(13, 16, 23, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e8ebf2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.25rem;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+}
+
+.canvas-board__title {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.canvas-board__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.canvas-board__title a:hover {
+  text-decoration: underline;
+}
+
+/* Settings drop to their own full row, keeping the window controls
+   (zoom, fullscreen, close) on the first row next to the title. */
+.canvas-board__settings {
+  align-items: center;
+  display: flex;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  order: 3;
+}
+
+.canvas-board__setting {
+  align-items: center;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.canvas-board__setting > span {
+  color: #8a93a8;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.canvas-board__select {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.06);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%23aab3c5' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: right 0.4rem center;
+  background-repeat: no-repeat;
+  background-size: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 0.4rem;
+  color: #e8ebf2;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.28rem 1.4rem 0.28rem 0.45rem;
+}
+
+.canvas-board__url {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 0.4rem;
+  color: #e8ebf2;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  min-width: 13rem;
+  padding: 0.32rem 0.55rem;
+}
+
+.canvas-board__url::placeholder {
+  color: #8a93a8;
+}
+
+.canvas-board__url:focus-visible {
+  border-color: rgba(124, 140, 248, 0.6);
+  outline: 2px solid rgba(124, 140, 248, 0.35);
+  outline-offset: 1px;
+}
+
+.canvas-board__controls {
+  align-items: center;
+  display: flex;
+  gap: 0.35rem;
+}
+
+.canvas-board__control {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 0.4rem;
+  color: #e8ebf2;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  min-width: 2rem;
+  padding: 0.35rem 0.7rem;
+}
+
+.canvas-board__control:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.canvas-board__control--icon {
+  align-items: center;
+  display: inline-flex;
+  height: 2rem;
+  justify-content: center;
+  padding: 0;
+  width: 2rem;
+}
+
+.canvas-board__zoom {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  min-width: 3.2rem;
+  text-align: center;
+}
+
+.canvas-board__canvas {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+  cursor: grab;
+  flex: 1;
+  /* clip (not hidden): the canvas must never become a scroll container,
+     otherwise iframes stealing focus on load scroll it and break pan/zoom. */
+  overflow: clip;
+  position: relative;
+  touch-action: none;
+}
+
+.canvas-board__canvas--panning {
+  cursor: grabbing;
+}
+
+.canvas-board__content {
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.canvas-frame {
+  position: absolute;
+}
+
+/* Counter-scaled so the caption stays readable at any zoom level, but
+   clamped to the frame width so neighbouring labels never overlap. */
+/* Counter-scale keeps frame chrome readable at any zoom, but is capped so
+   captions shrink with the canvas below ~30 % and never overlap neighbours. */
+.canvas-board__content {
+  --canvas-chrome-scale: min(calc(1 / var(--canvas-scale, 1)), 3.33);
+}
+
+/* Anchored just below the divider; full counter-scale keeps it readable at
+   any zoom — band titles are vertically separated, so they cannot collide. */
+.canvas-section__title {
+  color: #6c7686;
+  font-size: 1.05rem;
+  font-weight: 700;
+  left: 0;
+  letter-spacing: 0.14em;
+  margin: 0;
+  position: absolute;
+  text-transform: uppercase;
+  transform: scale(calc(1 / var(--canvas-scale, 1))) translateY(0.6rem);
+  transform-origin: 0 0;
+  white-space: nowrap;
+}
+
+/* Always exactly one screen pixel tall, regardless of zoom. */
+.canvas-section__divider {
+  background: rgba(255, 255, 255, 0.12);
+  height: calc(1px / var(--canvas-scale, 1));
+  left: 0;
+  position: absolute;
+}
+
+.canvas-frame__meta {
+  bottom: 100%;
+  color: #aab3c5;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  gap: 0.2rem;
+  left: 0;
+  line-height: 1.25;
+  margin-bottom: 0.6rem;
+  /* Clamp to the frame's on-screen width, but never below a readable floor —
+     long names wrap instead of truncating. */
+  max-width: max(calc(100% / var(--canvas-chrome-scale)), 8.5rem);
+  position: absolute;
+  transform: scale(var(--canvas-chrome-scale));
+  transform-origin: 0 100%;
+}
+
+.canvas-frame__name {
+  color: #ffffff;
+  font-size: 0.95rem;
+}
+
+.canvas-frame__size {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Counter-scaled below the frame, mirroring the caption above. */
+.canvas-frame__lock {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 0.4rem;
+  color: #aab3c5;
+  cursor: pointer;
+  display: flex;
+  height: 1.7rem;
+  justify-content: center;
+  left: 0;
+  margin-top: 0.6rem;
+  position: absolute;
+  top: 100%;
+  transform: scale(var(--canvas-chrome-scale));
+  transform-origin: 0 0;
+  width: 1.7rem;
+}
+
+.canvas-frame__lock:hover {
+  color: #e8ebf2;
+}
+
+.canvas-frame__lock--unlocked,
+.canvas-frame__lock--unlocked:hover {
+  background: #4ade80;
+  border-color: #4ade80;
+  color: #07100a;
+}
+
+.canvas-frame__iframe {
+  background: #ffffff;
+  border: 0;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.18),
+    0 24px 80px rgba(0, 0, 0, 0.5);
+  display: block;
+}
+
+/* Catches pointer events while locked, so wheel/drag control the canvas. */
+.canvas-frame__shield {
+  inset: 0;
+  position: absolute;
+}
+
+/* Simulated space-taking scrollbar — shown while scroll is locked. */
+/* Overlays the page edge — like a real classic scrollbar, the viewport
+   (and media queries) keep the full width, only the layout loses it. */
+.canvas-frame__scrollbar {
+  background: rgba(241, 241, 241, 0.92);
+  border-left: 1px solid rgba(16, 24, 40, 0.25);
+  bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.canvas-frame__scrollbar::after {
+  background: rgba(16, 24, 40, 0.4);
+  border-radius: 7px;
+  bottom: 55%;
+  content: '';
+  left: 2px;
+  position: absolute;
+  right: 2px;
+  top: 12%;
+}
+
+.app-footer__cta {
+  align-items: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  justify-content: space-between;
+  padding: 1.1rem 1.35rem;
+}
+
+.app-footer__cta h2 {
+  font-size: 1rem;
+  margin: 0 0 0.3rem;
+}
+
+.app-footer__cta p {
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  margin: 0;
+  max-width: 52ch;
+}
+
+.app-footer__columns {
+  border-top: 1px solid var(--color-line);
+  display: grid;
+  gap: 1.5rem 3rem;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+}
+
+.app-footer__author {
+  display: flex;
+  gap: 1.1rem;
+}
+
+.app-footer__avatar {
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.app-footer__about p,
+.app-footer__author p {
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0 0 0.7rem;
+  max-width: 64ch;
+}
+
+.app-footer__about p:last-child,
+.app-footer__author p:last-child {
+  margin-bottom: 0;
+}
+
+.app-footer__about a {
+  color: var(--color-action);
+  font-weight: 600;
+}
+
+.linkedin-button {
+  align-items: center;
+  background: #0a66c2;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 0.88rem;
+  font-weight: 600;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  padding: 0.5rem 0.95rem;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.linkedin-button:hover {
+  background: #084d92;
+}
+
+.linkedin-button:focus-visible {
+  outline: 2px solid var(--color-action);
+  outline-offset: 2px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 760px) {
+  .app-header,
+  .app-footer__columns,
+  .measure-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .app-header {
+    align-items: start;
+  }
+
+  .filter-bar {
+    border-radius: 0.75rem;
+  }
+
+  .filter-bar__toggle {
+    display: flex;
+  }
+
+  .filter-bar__items {
+    display: none;
+  }
+
+  .filter-bar__items--open {
+    display: grid;
+    gap: 0.85rem;
+    width: 100%;
+  }
+
+  .filter-bar__items--open .filter-bar__url {
+    min-width: 0;
+  }
+
+  .device-row__summary {
+    grid-template-columns: 1fr;
+  }
+
+  .device-row__viewport {
+    justify-items: start;
+    text-align: left;
+  }
+}

@@ -1,0 +1,54 @@
+name: Import profile contribution
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  import:
+    if: contains(github.event.issue.labels.*.name, 'profile-contribution')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Import measurement into devices.json
+        id: import
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: node scripts/import-contribution.mjs
+
+      - name: Open pull request
+        id: pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: contribution/issue-${{ github.event.issue.number }}
+          title: 'Import profile contribution from #${{ github.event.issue.number }}'
+          commit-message: 'Import profile contribution from issue #${{ github.event.issue.number }}'
+          body: |
+            Imports the measurement payload from #${{ github.event.issue.number }} into `src/data/devices.json`.
+
+            Review the heuristic fields (formFactor, aspectRatio, constraints) before merging.
+
+            Closes #${{ github.event.issue.number }}
+          labels: profile-contribution
+          delete-branch: true
+
+      - name: Comment on the issue
+        if: steps.pr.outputs.pull-request-url
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ steps.pr.outputs.pull-request-url }}
+        run: |
+          gh issue comment "${{ github.event.issue.number }}" \
+            --repo "${{ github.repository }}" \
+            --body "Automated import created a pull request: $PR_URL"

@@ -1,0 +1,415 @@
+{
+  "schemaVersion": 2,
+  "os": {
+    "macos": {
+      "scrollbar": [
+        {
+          "measurements": [
+            {
+              "heightDip": 15,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Overlay (0 px) by default. Classic when 'Show scroll bars: Always' is on — macOS also switches automatically while a mouse is connected."
+            }
+          ]
+        }
+      ],
+      "menuBar": [
+        {
+          "measurements": [
+            {
+              "heightDip": 24,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Non-notch displays. MacBooks with a notch override this per device (32 dip)."
+            }
+          ]
+        }
+      ],
+      "dock": [
+        {
+          "measurements": [
+            {
+              "heightDip": 64,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Default Dock size, always visible. Users with auto-hide get the full height back."
+            }
+          ]
+        }
+      ]
+    },
+    "chromeos": {
+      "scrollbar": [
+        {
+          "measurements": [
+            {
+              "heightDip": 15,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Chrome on ChromeOS renders standard web-page scrollbars; overlay only behind a flag."
+            }
+          ]
+        }
+      ],
+      "shelf": [
+        {
+          "measurements": [
+            {
+              "heightDip": 48,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Default ChromeOS shelf, always visible. Auto-hide gives the height back."
+            }
+          ]
+        }
+      ]
+    },
+    "windows": {
+      "scrollbar": [
+        {
+          "measurements": [
+            {
+              "heightDip": 15,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Classic Chromium scrollbar at 100 % scaling. Takes layout width inside the viewport — media queries still match the full width."
+            }
+          ]
+        }
+      ],
+      "taskbar": [
+        {
+          "appliesTo": { "osVersion": ">=11" },
+          "measurements": [
+            {
+              "heightDip": 48,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate"
+            }
+          ]
+        },
+        {
+          "appliesTo": { "osVersion": ">=10 <11" },
+          "measurements": [
+            {
+              "heightDip": 40,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate"
+            }
+          ]
+        },
+        {
+          "measurements": [
+            {
+              "heightDip": 48,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "fallback"
+            }
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "scrollbar": [
+        {
+          "measurements": [
+            {
+              "heightDip": 15,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Classic scrollbar in most desktop environments; some GTK themes use overlay."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "browser": {
+    "chrome": {
+      "topChrome": [
+        {
+          "appliesTo": { "os": "android", "formFactor": "tablet" },
+          "includes": ["statusBar", "tabStrip", "toolbar"],
+          "measurements": [
+            {
+              "heightDip": 120,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Status bar (24) + tab strip (40) + toolbar (56). Chrome's tablet UI keeps the toolbar visible while scrolling."
+            }
+          ]
+        },
+        {
+          "appliesTo": { "os": "android" },
+          "includes": ["statusBar", "toolbar"],
+          "measurements": [
+            {
+              "heightDip": 80,
+              "collapsedHeightDip": 24,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Status bar (24) + URL toolbar (56), gesture navigation assumed. Toolbar hides while scrolling."
+            }
+          ]
+        },
+        {
+          "appliesTo": { "os": "ios", "formFactor": "tablet" },
+          "includes": ["statusBar", "toolbar"],
+          "measurements": [
+            {
+              "heightDip": 80,
+              "collapsedHeightDip": 24,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Top toolbar only on iPad — no bottom bar. Collapses to the status area while scrolling."
+            }
+          ]
+        },
+        {
+          "appliesTo": { "os": "ios" },
+          "includes": ["statusBar", "toolbar", "bottomBar"],
+          "measurements": [
+            {
+              "heightDip": 153,
+              "collapsedHeightDip": 59,
+              "bottomHeightDip": 44,
+              "collapsedBottomHeightDip": 0,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "WebKit engine, but Chrome UI: top omnibox + bottom toolbar. Both hide while scrolling, leaving only the status area."
+            }
+          ]
+        },
+        {
+          "includes": ["tabstrip", "toolbar"],
+          "measurements": [
+            {
+              "heightDip": 80,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate"
+            }
+          ]
+        }
+      ],
+      "bookmarksBar": [
+        {
+          "measurements": [
+            {
+              "heightDip": 28,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate"
+            }
+          ]
+        }
+      ]
+    },
+    "edge": {
+      "topChrome": [
+        {
+          "appliesTo": { "os": "android" },
+          "includes": ["statusBar", "toolbar"],
+          "measurements": [
+            {
+              "heightDip": 80,
+              "collapsedHeightDip": 24,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Chromium toolbar layout, assumed equal to Chrome on Android."
+            }
+          ]
+        },
+        {
+          "appliesTo": { "os": "ios" },
+          "includes": ["statusBar", "toolbar", "bottomBar"],
+          "measurements": [
+            {
+              "heightDip": 153,
+              "collapsedHeightDip": 59,
+              "bottomHeightDip": 44,
+              "collapsedBottomHeightDip": 0,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "WebKit shell with top omnibox + bottom toolbar, assumed equal to Chrome on iOS."
+            }
+          ]
+        },
+        {
+          "includes": ["tabstrip", "toolbar"],
+          "measurements": [
+            {
+              "heightDip": 80,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate"
+            }
+          ]
+        }
+      ],
+      "bookmarksBar": [
+        {
+          "measurements": [
+            {
+              "heightDip": 28,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate"
+            }
+          ]
+        }
+      ]
+    },
+    "safari": {
+      "topChrome": [
+        {
+          "appliesTo": { "os": "ios", "formFactor": "tablet" },
+          "includes": ["statusBar", "toolbar"],
+          "measurements": [
+            {
+              "heightDip": 78,
+              "collapsedHeightDip": 28,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "iPad Safari keeps a top toolbar; it shrinks while scrolling."
+            }
+          ]
+        },
+        {
+          "appliesTo": { "os": "ios" },
+          "includes": ["statusBar", "bottomBar"],
+          "measurements": [
+            {
+              "heightDip": 193,
+              "collapsedHeightDip": 113,
+              "bottomHeightDip": 134,
+              "collapsedBottomHeightDip": 54,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Status area (59, Dynamic Island baseline) on top + bottom tab bar that shrinks to a slim strip while scrolling. iPhone SE and iPads override per device."
+            }
+          ]
+        },
+        {
+          "appliesTo": { "os": "macos" },
+          "includes": ["toolbar"],
+          "measurements": [
+            {
+              "heightDip": 76,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Unified title bar + toolbar with separate tab bar layout."
+            }
+          ]
+        },
+        {
+          "includes": ["toolbar"],
+          "measurements": [
+            {
+              "heightDip": 76,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "fallback"
+            }
+          ]
+        }
+      ]
+    },
+    "samsungInternet": {
+      "topChrome": [
+        {
+          "appliesTo": { "os": "android" },
+          "includes": ["statusBar", "toolbar", "bottomBar"],
+          "measurements": [
+            {
+              "heightDip": 136,
+              "collapsedHeightDip": 24,
+              "bottomHeightDip": 56,
+              "collapsedBottomHeightDip": 0,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Status bar (24) + top URL bar (56) + default bottom toolbar (56). Both bars hide while scrolling."
+            }
+          ]
+        }
+      ]
+    },
+    "firefox": {
+      "topChrome": [
+        {
+          "appliesTo": { "os": "android" },
+          "includes": ["statusBar", "toolbar"],
+          "measurements": [
+            {
+              "heightDip": 80,
+              "collapsedHeightDip": 24,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate"
+            }
+          ]
+        },
+        {
+          "appliesTo": { "os": "ios" },
+          "includes": ["statusBar", "toolbar", "bottomBar"],
+          "measurements": [
+            {
+              "heightDip": 153,
+              "collapsedHeightDip": 59,
+              "bottomHeightDip": 44,
+              "collapsedBottomHeightDip": 0,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "WebKit shell with top URL bar + bottom toolbar, assumed close to Chrome on iOS."
+            }
+          ]
+        },
+        {
+          "includes": ["tabstrip", "toolbar"],
+          "measurements": [
+            {
+              "heightDip": 82,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate"
+            }
+          ]
+        }
+      ],
+      "bookmarksBar": [
+        {
+          "measurements": [
+            {
+              "heightDip": 28,
+              "measuredAt": "2026-06-10T00:00:00Z",
+              "verified": false,
+              "source": "estimate"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

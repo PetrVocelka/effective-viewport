@@ -1,0 +1,967 @@
+{
+  "schemaVersion": 2,
+  "curated": [
+    {
+      "id": "apple-iphone-se-3",
+      "kind": "named",
+      "formFactor": "phone",
+      "label": "iPhone SE 3",
+      "vendor": "Apple",
+      "diagonalInches": 4.7,
+      "aspectRatio": "16:9",
+      "dpr": 2,
+      "orientation": "portrait",
+      "os": {
+        "name": "ios",
+        "version": "18"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "18"
+      },
+      "screen": {
+        "width": 375,
+        "height": 667
+      },
+      "constraints": ["topChrome"],
+      "constraintOverrides": {
+        "topChrome": {
+          "heightDip": 114,
+          "collapsedHeightDip": 40,
+          "bottomHeightDip": 94,
+          "collapsedBottomHeightDip": 20,
+          "notes": "Smaller 20 dip status bar, no home indicator."
+        }
+      },
+      "safeAreaInsets": {
+        "top": 20,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "Smallest iPhone still in common use; the mobile worst case for above-the-fold checks."
+    },
+    {
+      "id": "apple-iphone-16",
+      "kind": "named",
+      "formFactor": "phone",
+      "label": "iPhone 15 / 16",
+      "vendor": "Apple",
+      "diagonalInches": 6.1,
+      "aspectRatio": "19.5:9",
+      "dpr": 3,
+      "orientation": "portrait",
+      "os": {
+        "name": "ios",
+        "version": "18"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "18"
+      },
+      "screen": {
+        "width": 393,
+        "height": 852
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 59,
+        "right": 0,
+        "bottom": 34,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "Mainstream iPhone size shared by 14 Pro, 15, 15 Pro, 16."
+    },
+    {
+      "id": "apple-iphone-16-pro-max",
+      "kind": "named",
+      "formFactor": "phone",
+      "label": "iPhone 15 Pro Max / 16 Plus",
+      "vendor": "Apple",
+      "diagonalInches": 6.7,
+      "aspectRatio": "19.5:9",
+      "dpr": 3,
+      "orientation": "portrait",
+      "os": {
+        "name": "ios",
+        "version": "18"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "18"
+      },
+      "screen": {
+        "width": 430,
+        "height": 932
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 59,
+        "right": 0,
+        "bottom": 34,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "The 430\u00d7932 bucket \u2014 iPhone 14/15 Pro Max and 16 Plus."
+    },
+    {
+      "id": "apple-iphone-17",
+      "kind": "named",
+      "formFactor": "phone",
+      "label": "iPhone 17 / 17 Pro",
+      "vendor": "Apple",
+      "diagonalInches": 6.3,
+      "aspectRatio": "19.5:9",
+      "dpr": 3,
+      "orientation": "portrait",
+      "os": {
+        "name": "ios",
+        "version": "26"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "26"
+      },
+      "screen": {
+        "width": 402,
+        "height": 874
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 62,
+        "right": 0,
+        "bottom": 34,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "The 402\u00d7874 bucket shared by iPhone 17, 17 Pro, and 16 Pro."
+    },
+    {
+      "id": "apple-iphone-17-pro-max",
+      "kind": "named",
+      "formFactor": "phone",
+      "label": "iPhone 17 Pro Max",
+      "vendor": "Apple",
+      "diagonalInches": 6.9,
+      "aspectRatio": "19.5:9",
+      "dpr": 3,
+      "orientation": "portrait",
+      "os": {
+        "name": "ios",
+        "version": "26"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "26"
+      },
+      "screen": {
+        "width": 440,
+        "height": 956
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 62,
+        "right": 0,
+        "bottom": 34,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "The largest iPhone bucket (440\u00d7956) \u2014 also covers iPhone 16 Pro Max."
+    },
+    {
+      "id": "android-compact-360",
+      "kind": "reference",
+      "formFactor": "phone",
+      "label": "Compact Android (360 dip)",
+      "vendor": "Reference",
+      "diagonalInches": 6.1,
+      "aspectRatio": "20:9",
+      "dpr": 3,
+      "orientation": "portrait",
+      "os": {
+        "name": "android",
+        "version": "15"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 360,
+        "height": 800
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "360\u00d7800 is the most common mobile viewport worldwide (Galaxy A series and most mid-range Androids)."
+    },
+    {
+      "id": "samsung-galaxy-s24",
+      "kind": "named",
+      "formFactor": "phone",
+      "label": "Galaxy S24",
+      "vendor": "Samsung",
+      "diagonalInches": 6.2,
+      "aspectRatio": "19.5:9",
+      "dpr": 3,
+      "orientation": "portrait",
+      "os": {
+        "name": "android",
+        "version": "14"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 384,
+        "height": 854
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "measurements": []
+    },
+    {
+      "id": "google-pixel-9",
+      "kind": "named",
+      "formFactor": "phone",
+      "label": "Pixel 9",
+      "vendor": "Google",
+      "diagonalInches": 6.3,
+      "aspectRatio": "20:9",
+      "dpr": 2.625,
+      "orientation": "portrait",
+      "os": {
+        "name": "android",
+        "version": "15"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 412,
+        "height": 923
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "Also covers the wider 412 dip Android bucket (Pixel 7/8, Galaxy S Ultra)."
+    },
+    {
+      "id": "apple-ipad-mini-portrait",
+      "kind": "named",
+      "formFactor": "tablet",
+      "label": "iPad mini 8.3\" / Portrait",
+      "vendor": "Apple",
+      "diagonalInches": 8.3,
+      "aspectRatio": "1.52:1",
+      "dpr": 2,
+      "orientation": "portrait",
+      "os": {
+        "name": "ios",
+        "version": "18"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "18"
+      },
+      "screen": {
+        "width": 744,
+        "height": 1133
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 20,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "The small-tablet bucket \u2014 also a stand-in for 8\u2033 Android tablets. Narrower than many phone landscape layouts expect."
+    },
+    {
+      "id": "apple-ipad-10-9-portrait",
+      "kind": "named",
+      "formFactor": "tablet",
+      "label": "iPad 10.9\" / Portrait",
+      "vendor": "Apple",
+      "diagonalInches": 10.9,
+      "aspectRatio": "1.44:1",
+      "dpr": 2,
+      "orientation": "portrait",
+      "os": {
+        "name": "ios",
+        "version": "18"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "18"
+      },
+      "screen": {
+        "width": 820,
+        "height": 1180
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 20,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "The most common iPad bucket (iPad 10th gen, Air 11\")."
+    },
+    {
+      "id": "apple-ipad-pro-11-landscape",
+      "kind": "named",
+      "formFactor": "tablet",
+      "label": "iPad Pro 11\" / Landscape",
+      "vendor": "Apple",
+      "diagonalInches": 11,
+      "aspectRatio": "1.43:1",
+      "dpr": 2,
+      "orientation": "landscape",
+      "os": {
+        "name": "ios",
+        "version": "18"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "18"
+      },
+      "screen": {
+        "width": 1194,
+        "height": 834
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 20,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "The keyboard-iPad sweet spot (Pro 11\"; Air 11\" is 1180\u00d7820). At 1194 dip it crosses into desktop breakpoints \u2014 but with touch targets and tablet Safari chrome."
+    },
+    {
+      "id": "apple-ipad-pro-13-landscape",
+      "kind": "named",
+      "formFactor": "tablet",
+      "label": "iPad Pro 13\" / Landscape",
+      "vendor": "Apple",
+      "diagonalInches": 13,
+      "aspectRatio": "4:3",
+      "dpr": 2,
+      "orientation": "landscape",
+      "os": {
+        "name": "ios",
+        "version": "18"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "18"
+      },
+      "screen": {
+        "width": 1366,
+        "height": 1024
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 20,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "Tablet-as-laptop scenario; often used with external keyboards."
+    },
+    {
+      "id": "samsung-galaxy-tab-s9",
+      "kind": "named",
+      "formFactor": "tablet",
+      "label": "Galaxy Tab S9 / Portrait",
+      "vendor": "Samsung",
+      "diagonalInches": 11,
+      "aspectRatio": "1.6:1",
+      "dpr": 2,
+      "orientation": "portrait",
+      "os": {
+        "name": "android",
+        "version": "14"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 800,
+        "height": 1280
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "The mainstream Android tablet bucket (Tab S9 / A9+ class). Chrome's tablet UI behaves differently from iPad Safari — static chrome, no collapse."
+    },
+    {
+      "id": "windows-budget-1366",
+      "kind": "reference",
+      "formFactor": "desktop",
+      "label": "Budget notebook 1366\u00d7768",
+      "vendor": "Reference",
+      "diagonalInches": 14,
+      "aspectRatio": "16:9",
+      "dpr": 1,
+      "orientation": "landscape",
+      "os": {
+        "name": "windows",
+        "version": "11"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 1366,
+        "height": 768
+      },
+      "constraints": ["taskbar", "topChrome", "bookmarksBar"],
+      "measurements": [],
+      "notes": "Still everywhere in offices and schools. The desktop worst case for above-the-fold content."
+    },
+    {
+      "id": "google-chromebook-1366",
+      "kind": "reference",
+      "formFactor": "desktop",
+      "label": "Chromebook 1366\u00d7768",
+      "vendor": "Reference",
+      "diagonalInches": 14,
+      "aspectRatio": "16:9",
+      "dpr": 1,
+      "orientation": "landscape",
+      "os": {
+        "name": "chromeos",
+        "version": "131"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 1366,
+        "height": 768
+      },
+      "constraints": ["shelf", "topChrome", "bookmarksBar"],
+      "measurements": [],
+      "notes": "The education-segment default \u2014 huge in schools. ChromeOS shelf instead of a Windows taskbar; the shelf can also dock left or right."
+    },
+    {
+      "id": "windows-mainstream-1536",
+      "kind": "reference",
+      "formFactor": "desktop",
+      "label": "Mainstream notebook FHD @ 125%",
+      "vendor": "Reference",
+      "diagonalInches": 15.6,
+      "aspectRatio": "16:9",
+      "dpr": 1.25,
+      "orientation": "landscape",
+      "os": {
+        "name": "windows",
+        "version": "11"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 1536,
+        "height": 864
+      },
+      "assumedLogicalResolution": {
+        "width": 1536,
+        "height": 864
+      },
+      "constraints": ["taskbar", "topChrome", "bookmarksBar"],
+      "measurements": [],
+      "notes": "1920\u00d71080 panel at the Windows default 125% scaling \u2014 the most common desktop viewport worldwide."
+    },
+    {
+      "id": "windows-premium-16-10",
+      "kind": "reference",
+      "formFactor": "desktop",
+      "label": "Premium notebook 16:10 (XPS / ThinkPad class)",
+      "vendor": "Reference",
+      "diagonalInches": 13.5,
+      "aspectRatio": "16:10",
+      "dpr": 1.5,
+      "orientation": "landscape",
+      "os": {
+        "name": "windows",
+        "version": "11"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 1536,
+        "height": 960
+      },
+      "assumedLogicalResolution": {
+        "width": 1536,
+        "height": 960
+      },
+      "constraints": ["taskbar", "topChrome", "bookmarksBar"],
+      "measurements": [],
+      "notes": "Covers Dell XPS 13, ThinkPad X1 Carbon and similar 16:10 panels at default scaling."
+    },
+    {
+      "id": "microsoft-surface-pro-9",
+      "kind": "named",
+      "formFactor": "desktop",
+      "label": "Surface Pro 9",
+      "vendor": "Microsoft",
+      "diagonalInches": 13,
+      "aspectRatio": "3:2",
+      "dpr": 1.5,
+      "orientation": "landscape",
+      "os": {
+        "name": "windows",
+        "version": "11"
+      },
+      "browser": {
+        "name": "edge",
+        "version": "131"
+      },
+      "screen": {
+        "width": 1440,
+        "height": 960
+      },
+      "constraints": ["taskbar", "topChrome", "bookmarksBar"],
+      "measurements": [],
+      "notes": "3:2 tablet-laptop hybrid; also represents Surface Laptop sizes."
+    },
+    {
+      "id": "apple-macbook-pro-13-legacy",
+      "kind": "named",
+      "formFactor": "desktop",
+      "label": "MacBook Pro 13\" (2016\u20132022)",
+      "vendor": "Apple",
+      "diagonalInches": 13.3,
+      "aspectRatio": "16:10",
+      "dpr": 2,
+      "orientation": "landscape",
+      "os": {
+        "name": "macos",
+        "version": "15"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 1440,
+        "height": 900
+      },
+      "constraints": ["menuBar", "dock", "topChrome", "bookmarksBar"],
+      "measurements": [],
+      "notes": "Pre-notch Retina default (1440\u00d7900). Also matches many external 1440\u00d7900 setups."
+    },
+    {
+      "id": "apple-macbook-air-13",
+      "kind": "named",
+      "formFactor": "desktop",
+      "label": "MacBook Air 13\"",
+      "vendor": "Apple",
+      "diagonalInches": 13.6,
+      "aspectRatio": "16:10",
+      "dpr": 2,
+      "orientation": "landscape",
+      "os": {
+        "name": "macos",
+        "version": "15"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "18"
+      },
+      "screen": {
+        "width": 1470,
+        "height": 956
+      },
+      "constraints": ["menuBar", "dock", "topChrome"],
+      "constraintOverrides": {
+        "menuBar": {
+          "heightDip": 32,
+          "notes": "Taller menu bar on notch displays."
+        }
+      },
+      "measurements": [],
+      "notes": "M2/M3 Air, the most common modern Mac."
+    },
+    {
+      "id": "apple-macbook-pro-14",
+      "kind": "named",
+      "formFactor": "desktop",
+      "label": "MacBook Pro 14\"",
+      "vendor": "Apple",
+      "diagonalInches": 14.2,
+      "aspectRatio": "16:10",
+      "dpr": 2,
+      "orientation": "landscape",
+      "os": {
+        "name": "macos",
+        "version": "15"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 1512,
+        "height": 982
+      },
+      "constraints": ["menuBar", "dock", "topChrome", "bookmarksBar"],
+      "constraintOverrides": {
+        "menuBar": {
+          "heightDip": 32,
+          "notes": "Taller menu bar on notch displays."
+        }
+      },
+      "measurements": [],
+      "notes": "The default developer machine \u2014 which is exactly why it should not be your only test size."
+    },
+    {
+      "id": "apple-macbook-air-15",
+      "kind": "named",
+      "formFactor": "desktop",
+      "label": "MacBook Air 15\"",
+      "vendor": "Apple",
+      "diagonalInches": 15.3,
+      "aspectRatio": "16:10",
+      "dpr": 2,
+      "orientation": "landscape",
+      "os": {
+        "name": "macos",
+        "version": "15"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "18"
+      },
+      "screen": {
+        "width": 1710,
+        "height": 1112
+      },
+      "constraints": ["menuBar", "dock", "topChrome"],
+      "constraintOverrides": {
+        "menuBar": {
+          "heightDip": 32,
+          "notes": "Taller menu bar on notch displays."
+        }
+      },
+      "measurements": [],
+      "notes": "M2/M3 Air 15\" at the default scaled resolution (1710\u00d71112)."
+    },
+    {
+      "id": "apple-macbook-pro-16",
+      "kind": "named",
+      "formFactor": "desktop",
+      "label": "MacBook Pro 16\"",
+      "vendor": "Apple",
+      "diagonalInches": 16.2,
+      "aspectRatio": "16:10",
+      "dpr": 2,
+      "orientation": "landscape",
+      "os": {
+        "name": "macos",
+        "version": "15"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 1728,
+        "height": 1117
+      },
+      "constraints": ["menuBar", "dock", "topChrome", "bookmarksBar"],
+      "constraintOverrides": {
+        "menuBar": {
+          "heightDip": 32,
+          "notes": "Taller menu bar on notch displays."
+        }
+      },
+      "measurements": [],
+      "notes": "The largest Apple notebook \u2014 the comfortable upper bound for laptop layouts."
+    },
+    {
+      "id": "desktop-monitor-fhd",
+      "kind": "reference",
+      "formFactor": "desktop",
+      "label": "Desktop monitor 24\" FHD",
+      "vendor": "Reference",
+      "diagonalInches": 24,
+      "aspectRatio": "16:9",
+      "dpr": 1,
+      "orientation": "landscape",
+      "os": {
+        "name": "windows",
+        "version": "11"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 1920,
+        "height": 1080
+      },
+      "constraints": ["taskbar", "topChrome", "bookmarksBar"],
+      "measurements": [],
+      "notes": "Classic office desktop at 100% scaling."
+    },
+    {
+      "id": "desktop-monitor-qhd",
+      "kind": "reference",
+      "formFactor": "desktop",
+      "label": "Desktop monitor 27\" QHD",
+      "vendor": "Reference",
+      "diagonalInches": 27,
+      "aspectRatio": "16:9",
+      "dpr": 1,
+      "orientation": "landscape",
+      "os": {
+        "name": "windows",
+        "version": "11"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 2560,
+        "height": 1440
+      },
+      "constraints": ["taskbar", "topChrome", "bookmarksBar"],
+      "measurements": [],
+      "notes": "27\u2033 QHD at 100% scaling \u2014 the common developer and designer monitor. A side-docked taskbar or Dock eats into the width users actually get."
+    },
+    {
+      "id": "samsung-galaxy-z-fold-folded",
+      "kind": "edgeCase",
+      "formFactor": "phone",
+      "label": "Galaxy Z Fold / Folded (cover)",
+      "vendor": "Samsung",
+      "diagonalInches": 6.2,
+      "aspectRatio": "23.1:9",
+      "dpr": 2.625,
+      "orientation": "portrait",
+      "os": {
+        "name": "android",
+        "version": "14"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 344,
+        "height": 882
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "Ultra-narrow cover display — the narrowest mainstream viewport (344 dip). The width worst case for wrapping, buttons, and fixed-width components."
+    },
+    {
+      "id": "samsung-galaxy-z-fold-unfolded",
+      "kind": "edgeCase",
+      "formFactor": "phone",
+      "label": "Galaxy Z Fold / Unfolded",
+      "vendor": "Samsung",
+      "diagonalInches": 7.6,
+      "aspectRatio": "21.6:18",
+      "dpr": 3,
+      "orientation": "portrait",
+      "os": {
+        "name": "android",
+        "version": "14"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 673,
+        "height": 841
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "Nearly-square foldable; breaks aspect-ratio assumptions in both directions."
+    },
+    {
+      "id": "apple-iphone-16-landscape",
+      "kind": "edgeCase",
+      "formFactor": "phone",
+      "label": "iPhone 15 / 16 \u2014 Landscape",
+      "vendor": "Apple",
+      "diagonalInches": 6.1,
+      "aspectRatio": "19.5:9",
+      "dpr": 3,
+      "orientation": "landscape",
+      "os": {
+        "name": "ios",
+        "version": "18"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "18"
+      },
+      "screen": {
+        "width": 852,
+        "height": 393
+      },
+      "constraints": ["topChrome"],
+      "constraintOverrides": {
+        "topChrome": {
+          "heightDip": 50,
+          "collapsedHeightDip": 0,
+          "notes": "Landscape Safari hides the status bar and moves the tab bar to the top; it disappears entirely while scrolling."
+        }
+      },
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 59,
+        "bottom": 21,
+        "left": 59
+      },
+      "measurements": [],
+      "notes": "The vertical worst case: ~343 dip of height with browser UI visible. Safe areas move to the sides (59 dip each) because of the Dynamic Island."
+    },
+    {
+      "id": "android-compact-360-landscape",
+      "kind": "edgeCase",
+      "formFactor": "phone",
+      "label": "Compact Android \u2014 Landscape",
+      "vendor": "Reference",
+      "diagonalInches": 6.1,
+      "aspectRatio": "20:9",
+      "dpr": 3,
+      "orientation": "landscape",
+      "os": {
+        "name": "android",
+        "version": "15"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 800,
+        "height": 360
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "The most common Android viewport rotated: only ~280 dip of height before the toolbar collapses. Video players, cookie bars, and sticky headers fight for this space."
+    },
+    {
+      "id": "apple-ipad-pro-13-split-view",
+      "kind": "edgeCase",
+      "formFactor": "tablet",
+      "label": "iPad Pro 13\" / Split View (\u00bd)",
+      "vendor": "Apple",
+      "diagonalInches": 13,
+      "aspectRatio": "2:3",
+      "dpr": 2,
+      "orientation": "portrait",
+      "os": {
+        "name": "ios",
+        "version": "18"
+      },
+      "browser": {
+        "name": "safari",
+        "version": "18"
+      },
+      "screen": {
+        "width": 678,
+        "height": 1024
+      },
+      "constraints": ["topChrome"],
+      "safeAreaInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 20,
+        "left": 0
+      },
+      "measurements": [],
+      "notes": "Safari in half Split View on the 13\" iPad: 678 dip wide \u2014 below the classic 768 tablet breakpoint, so a large tablet suddenly serves the mobile layout. The \u2153 split is harsher still: 375 dip, plain iPhone width."
+    },
+    {
+      "id": "ultrawide-3440-1440",
+      "kind": "edgeCase",
+      "formFactor": "desktop",
+      "label": "Ultra-wide 34\" 21:9",
+      "vendor": "Reference",
+      "diagonalInches": 34,
+      "aspectRatio": "21:9",
+      "dpr": 1,
+      "orientation": "landscape",
+      "os": {
+        "name": "windows",
+        "version": "11"
+      },
+      "browser": {
+        "name": "chrome",
+        "version": "131"
+      },
+      "screen": {
+        "width": 3440,
+        "height": 1440
+      },
+      "constraints": ["taskbar", "topChrome"],
+      "measurements": [],
+      "notes": "Width is usually window-driven because few users maximize on ultra-wides; treat as a max-width stress test."
+    }
+  ],
+  "measured": []
+}

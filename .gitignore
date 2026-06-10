@@ -1,0 +1,14 @@
+dist
+node_modules
+.pnp.*
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.DS_Store
+.env
+.env.local
+*.local
+.vite
+coverage

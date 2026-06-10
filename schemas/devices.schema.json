@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://effective-viewport.dev/schemas/devices.schema.json",
+  "title": "Effective Viewport Devices",
+  "type": "object",
+  "required": ["schemaVersion", "curated", "measured"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "integer", "minimum": 1 },
+    "curated": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/deviceProfile" }
+    },
+    "measured": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/deviceProfile" }
+    }
+  },
+  "$defs": {
+    "size": {
+      "type": "object",
+      "required": ["width", "height"],
+      "additionalProperties": false,
+      "properties": {
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "deviceProfile": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "formFactor",
+        "label",
+        "aspectRatio",
+        "dpr",
+        "orientation",
+        "os",
+        "browser",
+        "screen",
+        "constraints",
+        "measurements"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["named", "edgeCase", "reference"] },
+        "formFactor": { "enum": ["phone", "tablet", "desktop"] },
+        "label": { "type": "string", "minLength": 1 },
+        "vendor": { "type": "string" },
+        "diagonalInches": { "type": "number", "exclusiveMinimum": 0 },
+        "aspectRatio": { "type": "string", "minLength": 1 },
+        "dpr": { "type": "number", "exclusiveMinimum": 0 },
+        "orientation": { "enum": ["landscape", "portrait"] },
+        "os": {
+          "type": "object",
+          "required": ["name"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "enum": ["macos", "windows", "ios", "android", "linux", "chromeos"] },
+            "version": { "type": "string" }
+          }
+        },
+        "browser": {
+          "type": "object",
+          "required": ["name"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "enum": ["chrome", "edge", "safari", "firefox", "samsungInternet"] },
+            "version": { "type": "string" }
+          }
+        },
+        "screen": { "$ref": "#/$defs/size" },
+        "assumedLogicalResolution": { "$ref": "#/$defs/size" },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "enum": ["menuBar", "dock", "taskbar", "shelf", "topChrome", "bookmarksBar"]
+          }
+        },
+        "constraintOverrides": {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^(menuBar|dock|taskbar|shelf|topChrome|bookmarksBar)$": {
+              "type": "object",
+              "required": ["heightDip"],
+              "additionalProperties": false,
+              "properties": {
+                "heightDip": { "type": "number", "minimum": 0 },
+                "collapsedHeightDip": { "type": "number", "minimum": 0 },
+                "bottomHeightDip": { "type": "number", "minimum": 0 },
+                "collapsedBottomHeightDip": { "type": "number", "minimum": 0 },
+                "notes": { "type": "string" }
+              }
+            }
+          }
+        },
+        "safeAreaInsets": {
+          "type": "object",
+          "required": ["top", "right", "bottom", "left"],
+          "additionalProperties": false,
+          "properties": {
+            "top": { "type": "number", "minimum": 0 },
+            "right": { "type": "number", "minimum": 0 },
+            "bottom": { "type": "number", "minimum": 0 },
+            "left": { "type": "number", "minimum": 0 }
+          }
+        },
+        "measurements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["effectiveViewport", "measuredAt", "verified"],
+            "additionalProperties": false,
+            "properties": {
+              "effectiveViewport": { "$ref": "#/$defs/size" },
+              "measuredAt": { "type": "string", "format": "date-time" },
+              "verified": { "type": "boolean" },
+              "source": { "type": "string" },
+              "notes": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
