@@ -3,21 +3,25 @@ interface PlatformIconEntry {
   label: string;
 }
 
+/* GitHub Pages serves the app from a subpath — public assets must respect
+   Vite's base URL (always ends with a slash). */
+const iconUrl = (file: string) => `${import.meta.env.BASE_URL}icons/${file}`;
+
 const OS_ICONS: Record<string, PlatformIconEntry> = {
-  ios: { src: '/icons/apple.svg', label: 'iOS' },
-  macos: { src: '/icons/apple.svg', label: 'macOS' },
-  android: { src: '/icons/android.svg', label: 'Android' },
-  windows: { src: '/icons/windows.svg', label: 'Windows' },
-  linux: { src: '/icons/linux.svg', label: 'Linux' },
-  chromeos: { src: '/icons/chromeos.svg', label: 'ChromeOS' },
+  ios: { src: iconUrl('apple.svg'), label: 'iOS' },
+  macos: { src: iconUrl('apple.svg'), label: 'macOS' },
+  android: { src: iconUrl('android.svg'), label: 'Android' },
+  windows: { src: iconUrl('windows.svg'), label: 'Windows' },
+  linux: { src: iconUrl('linux.svg'), label: 'Linux' },
+  chromeos: { src: iconUrl('chromeos.svg'), label: 'ChromeOS' },
 };
 
 const BROWSER_ICONS: Record<string, PlatformIconEntry> = {
-  chrome: { src: '/icons/chrome.svg', label: 'Chrome' },
-  safari: { src: '/icons/safari.svg', label: 'Safari' },
-  edge: { src: '/icons/edge.svg', label: 'Edge' },
-  firefox: { src: '/icons/firefox.svg', label: 'Firefox' },
-  samsungInternet: { src: '/icons/samsung-internet.svg', label: 'Samsung Internet' },
+  chrome: { src: iconUrl('chrome.svg'), label: 'Chrome' },
+  safari: { src: iconUrl('safari.svg'), label: 'Safari' },
+  edge: { src: iconUrl('edge.svg'), label: 'Edge' },
+  firefox: { src: iconUrl('firefox.svg'), label: 'Firefox' },
+  samsungInternet: { src: iconUrl('samsung-internet.svg'), label: 'Samsung Internet' },
 };
 
 export function OsIcon({ os }: { os: string }) {
