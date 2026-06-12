@@ -116,7 +116,12 @@
             "additionalProperties": false,
             "properties": {
               "effectiveViewport": { "$ref": "#/$defs/size" },
+              "smallViewportHeight": { "type": "number", "exclusiveMinimum": 0 },
+              "largeViewportHeight": { "type": "number", "exclusiveMinimum": 0 },
               "measuredAt": { "type": "string", "format": "date-time" },
+              "osVersion": { "type": "string" },
+              "browserVersion": { "type": "string" },
+              "environment": { "enum": ["hardware", "emulator"] },
               "verified": { "type": "boolean" },
               "source": { "type": "string" },
               "notes": { "type": "string" }

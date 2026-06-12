@@ -1,5 +1,5 @@
 import { QRCodeSVG } from 'qrcode.react';
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import devicesJson from '../../data/devices.json';
 import {
   createContributionIssueUrl,
@@ -12,80 +12,121 @@ import type {
   DeviceDataset,
   ProfileKind,
 } from '../profiles/profile.types';
+import { MeasureHero } from './MeasureHero';
 import { MeasurementQueueCard } from './MeasurementQueueCard';
+import { readMeasurementContext } from './measurementContext';
 import { addToQueue } from './measurementQueue';
 import { createImportUrl } from './measurementTransfer';
+import { useAutoreport } from './useAutoreport';
 import { useViewportMeasurement } from './useViewportMeasurement';
 import type { ViewportMeasurement } from './viewportMeasurement';
 
 const devices = devicesJson as DeviceDataset;
 const allProfiles = [...devices.curated, ...devices.measured];
 
-export function MeasurePage() {
-  const measurement = useViewportMeasurement();
+interface MeasurePageProps {
+  /** Returns to the device reference — the page is a dead end without it. */
+  onExit: () => void;
+}
+
+export function MeasurePage({ onExit }: MeasurePageProps) {
+  const context = useMemo(() => readMeasurementContext(), []);
+  const { measurement, isComplete } = useViewportMeasurement();
+  const autoreportStatus = useAutoreport(context, measurement, isComplete);
   const [queueVersion, setQueueVersion] = useState(0);
+  const contributionRef = useRef<HTMLElement>(null);
+
+  // The hero fills exactly 100svh, so the contribution flow is invisible on
+  // arrival — the hero button scrolls it into view.
+  const scrollToContribution = () => {
+    contributionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <>
-      <section className="measure-grid">
-        <section aria-labelledby="live-viewport-title" className="panel panel--accent">
-          <p className="eyebrow">Live measurement</p>
-          <h2 id="live-viewport-title">This browser&rsquo;s viewport</h2>
-          <p className="metric">
-            {measurement ? `${measurement.innerWidth} × ${measurement.innerHeight}` : '— × —'}
-          </p>
-          <dl className="measurement-summary">
-            <Fact
-              label="Screen"
-              value={measurement ? `${measurement.screenWidth} × ${measurement.screenHeight}` : '…'}
-            />
-            <Fact
-              label="OS UI"
-              value={measurement ? `${measurement.estimatedOsChromeHeight} px` : '…'}
-            />
-            <Fact
-              label="Browser UI"
-              value={measurement ? `${measurement.estimatedBrowserChromeHeight} px` : '…'}
-            />
-          </dl>
-        </section>
+      <MeasureHero
+        autoreportStatus={autoreportStatus}
+        measurement={measurement}
+        onExit={context.isCaptureMode ? undefined : onExit}
+        onSubmitMeasurement={context.isCaptureMode ? undefined : scrollToContribution}
+      />
 
-        <section aria-labelledby="environment-title" className="panel">
-          <p className="eyebrow">Environment</p>
-          <h2 id="environment-title">What we detected</h2>
-          <dl className="facts">
-            <Fact
-              label="OS / browser"
-              value={
-                measurement ? `${measurement.detectedOS} / ${measurement.detectedBrowser}` : '…'
-              }
-            />
-            <Fact label="DPR" value={measurement ? `${measurement.devicePixelRatio}` : '…'} />
-            <Fact label="Orientation" value={measurement ? measurement.orientation : '…'} />
-            <Fact label="Scrollbar" value={measurement ? formatScrollbar(measurement) : '…'} />
-            <Fact
-              label="Safe areas"
-              value={
-                measurement
-                  ? `top ${measurement.safeAreaInsets.top} / bottom ${measurement.safeAreaInsets.bottom}`
-                  : '…'
-              }
-            />
-          </dl>
-          {measurement?.zoomWarning ? <p className="warning">{measurement.zoomWarning}</p> : null}
-        </section>
-      </section>
+      <div className="measure-content">
+        <EnvironmentPanel measurement={measurement} />
 
-      {measurement ? <QuickCaptureCard measurement={measurement} /> : null}
-      {measurement ? (
-        <ContributionCard
-          measurement={measurement}
-          onQueueChange={() => setQueueVersion((version) => version + 1)}
-        />
-      ) : null}
-      <MeasurementQueueCard key={queueVersion} />
+        {context.isCaptureMode ? null : (
+          <>
+            {measurement ? <QuickCaptureCard measurement={measurement} /> : null}
+            {measurement ? (
+              <ContributionCard
+                measurement={measurement}
+                onQueueChange={() => setQueueVersion((version) => version + 1)}
+                sectionRef={contributionRef}
+              />
+            ) : null}
+            <MeasurementQueueCard key={queueVersion} />
+          </>
+        )}
+      </div>
     </>
   );
+}
+
+interface EnvironmentPanelProps {
+  measurement: ViewportMeasurement | null;
+}
+
+function EnvironmentPanel({ measurement }: EnvironmentPanelProps) {
+  return (
+    <section aria-labelledby="environment-title" className="panel">
+      <p className="eyebrow">Environment</p>
+      <h2 id="environment-title">What we detected</h2>
+      <dl className="facts">
+        <Fact
+          label="OS / browser"
+          value={measurement ? `${measurement.detectedOS} / ${measurement.detectedBrowser}` : '…'}
+        />
+        <Fact label="Versions" value={measurement ? formatVersions(measurement) : '…'} />
+        <Fact label="Environment" value={measurement ? measurement.environment : '…'} />
+        <Fact label="DPR" value={measurement ? `${measurement.devicePixelRatio}` : '…'} />
+        <Fact label="Orientation" value={measurement ? measurement.orientation : '…'} />
+        <Fact
+          label="OS UI"
+          value={measurement ? `${measurement.estimatedOsChromeHeight} px` : '…'}
+        />
+        <Fact
+          label="Browser UI"
+          value={measurement ? `${measurement.estimatedBrowserChromeHeight} px` : '…'}
+        />
+        <Fact label="svh / lvh" value={measurement ? formatViewportUnits(measurement) : '…'} />
+        <Fact label="Scrollbar" value={measurement ? formatScrollbar(measurement) : '…'} />
+        <Fact
+          label="Safe areas"
+          value={
+            measurement
+              ? `top ${measurement.safeAreaInsets.top} / bottom ${measurement.safeAreaInsets.bottom}`
+              : '…'
+          }
+        />
+      </dl>
+      {measurement?.zoomWarning ? <p className="warning">{measurement.zoomWarning}</p> : null}
+    </section>
+  );
+}
+
+function formatVersions(measurement: ViewportMeasurement): string {
+  const osVersion = measurement.osVersion ?? '?';
+  const browserVersion = measurement.browserVersion ?? '?';
+
+  return `OS ${osVersion} / browser ${browserVersion} (${measurement.versionSource})`;
+}
+
+function formatViewportUnits(measurement: ViewportMeasurement): string {
+  if (measurement.smallViewportHeight === null || measurement.largeViewportHeight === null) {
+    return 'not supported';
+  }
+
+  return `${Math.round(measurement.smallViewportHeight)} / ${Math.round(measurement.largeViewportHeight)} px`;
 }
 
 interface QuickCaptureCardProps {
@@ -196,11 +237,13 @@ const QR_TARGET_OPTIONS: Array<{ value: QrTarget; label: string }> = [
 ];
 
 interface ContributionCardProps {
-  measurement: NonNullable<ReturnType<typeof useViewportMeasurement>>;
+  measurement: ViewportMeasurement;
   onQueueChange: () => void;
+  /** Scroll target for the hero's "Submit this measurement" button. */
+  sectionRef: React.RefObject<HTMLElement | null>;
 }
 
-function ContributionCard({ measurement, onQueueChange }: ContributionCardProps) {
+function ContributionCard({ measurement, onQueueChange, sectionRef }: ContributionCardProps) {
   const detectedBrowser: BrowserName =
     measurement.detectedBrowser === 'unknown' ? 'chrome' : measurement.detectedBrowser;
   const availableConstraints = getAvailableConstraints(measurement.detectedOS, detectedBrowser);
@@ -263,7 +306,7 @@ function ContributionCard({ measurement, onQueueChange }: ContributionCardProps)
   };
 
   return (
-    <section aria-labelledby="contribution-title" className="panel">
+    <section aria-labelledby="contribution-title" className="panel" ref={sectionRef}>
       <p className="eyebrow">Contribute</p>
       <h2 id="contribution-title">Send this measurement to the dataset</h2>
       <p className="muted">

@@ -24,6 +24,10 @@ Please add the marketing name of the device when you know it, for example:
 
 Incoming community measurements should be treated as `verified: false` until reviewed.
 
+Measurements from emulators and VMs are welcome — record them with
+`environment: "emulator"`. Automated emulator runs (iOS Simulator, Android
+emulator) are described in [docs/agent-measurement-playbook.md](docs/agent-measurement-playbook.md).
+
 ## Dataset rules
 
 - Keep `schemaVersion` in place.

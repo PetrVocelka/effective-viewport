@@ -1,4 +1,4 @@
-import type { OsBarPosition, ScrollbarMode } from './constraintCatalog';
+import type { KeyboardMode, OsBarPosition, ScrollbarMode } from './constraintCatalog';
 import type { BrowserName, FormFactor } from './profile.types';
 
 const PAGE_PARAM = 'page';
@@ -7,8 +7,12 @@ const BROWSER_PARAM = 'browser';
 const BOOKMARKS_PARAM = 'bookmarks';
 const OS_BAR_PARAM = 'osbar';
 const SCROLLBAR_PARAM = 'scrollbar';
+const KEYBOARD_PARAM = 'keyboard';
 const FORM_FACTOR_PARAM = 'type';
+export const TEST_URL_PARAM = 'url';
 export const CANVAS_PARAM = 'canvas';
+/** `?canvas=all` — the compare-all canvas as a shareable address. */
+export const CANVAS_ALL = 'all';
 
 export type AppPage = 'devices' | 'measure';
 
@@ -21,8 +25,12 @@ export interface UrlState {
   showBookmarksBar: boolean;
   osBarPosition: OsBarPosition;
   scrollbarMode: ScrollbarMode;
+  keyboardMode: KeyboardMode;
   formFactorFilter: FormFactorFilter;
-  /** Device id — when set, the canvas opens with just this device (deep link). */
+  /** The page loaded in every preview — part of the link, so shared canvases
+      open with the same site in the frames. Empty = placeholder pages. */
+  testUrl: string;
+  /** `all` opens the full canvas; a device id opens it with just that device. */
   canvasDeviceId: string | null;
 }
 
@@ -36,7 +44,9 @@ export function readUrlState(): UrlState {
     showBookmarksBar: params.get(BOOKMARKS_PARAM) !== '0',
     osBarPosition: params.get(OS_BAR_PARAM) === 'side' ? 'side' : 'bottom',
     scrollbarMode: parseScrollbarMode(params.get(SCROLLBAR_PARAM)),
+    keyboardMode: params.get(KEYBOARD_PARAM) === 'open' ? 'open' : 'closed',
     formFactorFilter: parseFormFactorFilter(params.get(FORM_FACTOR_PARAM)),
+    testUrl: params.get(TEST_URL_PARAM) ?? '',
     canvasDeviceId: params.get(CANVAS_PARAM),
   };
 }
@@ -68,12 +78,20 @@ export function writeUrlState(state: Partial<UrlState>): void {
     setOrDelete(params, SCROLLBAR_PARAM, state.scrollbarMode === 'off' ? 'off' : null);
   }
 
+  if (state.keyboardMode !== undefined) {
+    setOrDelete(params, KEYBOARD_PARAM, state.keyboardMode === 'open' ? 'open' : null);
+  }
+
   if (state.formFactorFilter !== undefined) {
     setOrDelete(
       params,
       FORM_FACTOR_PARAM,
       state.formFactorFilter === 'all' ? null : state.formFactorFilter,
     );
+  }
+
+  if (state.testUrl !== undefined) {
+    setOrDelete(params, TEST_URL_PARAM, state.testUrl.trim() ? state.testUrl : null);
   }
 
   if (state.canvasDeviceId !== undefined) {

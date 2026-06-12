@@ -4,6 +4,8 @@ import type {
   Orientation,
   SafeAreaInsets,
 } from '../profiles/profile.types';
+import type { MeasurementEnvironment } from './measurementContext';
+import { UNKNOWN_VERSION_INFO, type VersionInfo, type VersionSource } from './versionDetection';
 
 export interface ViewportMeasurement {
   innerWidth: number;
@@ -14,12 +16,20 @@ export interface ViewportMeasurement {
   screenHeight: number;
   availableWidth: number;
   availableHeight: number;
+  /** 100svh in CSS px — the viewport with all dynamic browser UI expanded. */
+  smallViewportHeight: number | null;
+  /** 100lvh in CSS px — the viewport once dynamic browser UI collapses. */
+  largeViewportHeight: number | null;
   devicePixelRatio: number;
   orientation: Orientation;
   measuredAt: string;
   userAgent: string;
   detectedOS: OperatingSystem | 'unknown';
   detectedBrowser: BrowserName | 'unknown';
+  osVersion: string | null;
+  browserVersion: string | null;
+  versionSource: VersionSource;
+  environment: MeasurementEnvironment;
   estimatedOsChromeHeight: number;
   estimatedBrowserChromeHeight: number;
   /** innerWidth − clientWidth: a classic scrollbar's layout cost; 0 with overlay scrollbars. */
@@ -28,10 +38,16 @@ export interface ViewportMeasurement {
   zoomWarning: string | null;
 }
 
-export function measureViewport(): ViewportMeasurement {
+export interface MeasureViewportOptions {
+  versionInfo?: VersionInfo;
+  environment?: MeasurementEnvironment;
+}
+
+export function measureViewport(options: MeasureViewportOptions = {}): ViewportMeasurement {
   const safeAreaInsets = readSafeAreaInsets();
   const devicePixelRatio = window.devicePixelRatio || 1;
   const visualViewportScale = window.visualViewport?.scale ?? 1;
+  const versionInfo = options.versionInfo ?? UNKNOWN_VERSION_INFO;
 
   return {
     innerWidth: window.innerWidth,
@@ -42,12 +58,18 @@ export function measureViewport(): ViewportMeasurement {
     screenHeight: window.screen.height,
     availableWidth: window.screen.availWidth,
     availableHeight: window.screen.availHeight,
+    smallViewportHeight: measureViewportUnit('svh'),
+    largeViewportHeight: measureViewportUnit('lvh'),
     devicePixelRatio,
     orientation: window.innerWidth >= window.innerHeight ? 'landscape' : 'portrait',
     measuredAt: new Date().toISOString(),
     userAgent: window.navigator.userAgent,
     detectedOS: detectOS(window.navigator.userAgent),
     detectedBrowser: detectBrowser(window.navigator.userAgent),
+    osVersion: versionInfo.osVersion,
+    browserVersion: versionInfo.browserVersion,
+    versionSource: versionInfo.versionSource,
+    environment: options.environment ?? 'hardware',
     estimatedOsChromeHeight: Math.max(0, window.screen.height - window.screen.availHeight),
     estimatedBrowserChromeHeight: Math.max(0, window.outerHeight - window.innerHeight),
     scrollbarWidth: Math.max(0, window.innerWidth - document.documentElement.clientWidth),
@@ -111,6 +133,28 @@ export function detectBrowser(userAgent: string): BrowserName | 'unknown' {
   }
 
   return 'unknown';
+}
+
+/**
+ * Both toolbar states of a dynamic mobile browser UI are measurable at once —
+ * no scroll gesture needed: svh is the expanded state, lvh the collapsed one.
+ */
+function measureViewportUnit(unit: 'svh' | 'lvh'): number | null {
+  if (typeof CSS === 'undefined' || !CSS.supports('height', `100${unit}`)) {
+    return null;
+  }
+
+  const probe = document.createElement('div');
+  probe.style.position = 'fixed';
+  probe.style.visibility = 'hidden';
+  probe.style.pointerEvents = 'none';
+  probe.style.height = `100${unit}`;
+  document.body.appendChild(probe);
+
+  const height = probe.getBoundingClientRect().height;
+  probe.remove();
+
+  return height;
 }
 
 function readSafeAreaInsets(): SafeAreaInsets {

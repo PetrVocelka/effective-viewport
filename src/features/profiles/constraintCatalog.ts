@@ -8,6 +8,7 @@ export const CONSTRAINT_LABELS: Record<ConstraintId, string> = {
   topChrome: 'Browser UI',
   bookmarksBar: 'Bookmarks bar',
   scrollbar: 'Scrollbar',
+  keyboard: 'On-screen keyboard',
 };
 
 export const BROWSER_LABELS: Record<BrowserName, string> = {
@@ -38,6 +39,18 @@ export type ScrollbarMode = 'on' | 'off';
 /** Mobile browsers always overlay their scrollbars — only desktops lose width. */
 export function hasSpaceTakingScrollbar(formFactor: FormFactor, mode: ScrollbarMode): boolean {
   return mode === 'on' && formFactor === 'desktop';
+}
+
+/**
+ * Opt-in worst case: a focused input with the native on-screen keyboard up.
+ * - closed: the default — numbers describe the page at rest.
+ * - open: phones and tablets lose the keyboard height while typing.
+ */
+export type KeyboardMode = 'closed' | 'open';
+
+/** Desktops have hardware keyboards — only touch devices lose the height. */
+export function hasOnScreenKeyboard(formFactor: FormFactor, mode: KeyboardMode): boolean {
+  return mode === 'open' && formFactor !== 'desktop';
 }
 
 /** OS bars users can move to a vertical screen edge (macOS Dock, Windows taskbar, ChromeOS shelf). */

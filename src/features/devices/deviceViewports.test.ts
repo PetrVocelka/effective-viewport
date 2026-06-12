@@ -4,7 +4,33 @@ import { createDeviceViewportRow } from './deviceViewports';
 
 const constraints: ConstraintDataset = {
   schemaVersion: 2,
-  os: {},
+  os: {
+    ios: {
+      keyboard: [
+        {
+          appliesTo: { formFactor: 'tablet' },
+          measurements: [
+            {
+              heightDip: 320,
+              bottomHeightDip: 320,
+              measuredAt: '2026-06-12T00:00:00Z',
+              verified: false,
+            },
+          ],
+        },
+        {
+          measurements: [
+            {
+              heightDip: 291,
+              bottomHeightDip: 291,
+              measuredAt: '2026-06-12T00:00:00Z',
+              verified: false,
+            },
+          ],
+        },
+      ],
+    },
+  },
   browser: {
     safari: {
       topChrome: [
@@ -58,6 +84,7 @@ const defaultSettings = {
   showBookmarksBar: false,
   osBarPosition: 'bottom',
   scrollbarMode: 'off',
+  keyboardMode: 'closed',
 } as const;
 
 describe('createDeviceViewportRow', () => {
@@ -95,5 +122,56 @@ describe('createDeviceViewportRow', () => {
 
     expect(safariRow.result.viewport.height).toBe(852 - 114);
     expect(chromeRow.result.viewport.height).toBe(852 - 153);
+  });
+
+  it('subtracts the on-screen keyboard only when opted in', () => {
+    const closedRow = createDeviceViewportRow(iphone, constraints, {
+      ...defaultSettings,
+      browser: 'safari',
+    });
+    const openRow = createDeviceViewportRow(iphone, constraints, {
+      ...defaultSettings,
+      browser: 'safari',
+      keyboardMode: 'open',
+    });
+
+    expect(closedRow.result.viewport.height).toBe(852 - 193);
+    expect(openRow.result.viewport.height).toBe(852 - 193 - 291);
+  });
+
+  it('picks the tablet keyboard entry for tablets and skips desktops entirely', () => {
+    const ipad: DeviceProfile = {
+      ...iphone,
+      id: 'test-ipad',
+      formFactor: 'tablet',
+      screen: { width: 834, height: 1194 },
+    };
+    const desktop: DeviceProfile = {
+      ...iphone,
+      id: 'test-desktop',
+      formFactor: 'desktop',
+      os: { name: 'macos' },
+      screen: { width: 1512, height: 982 },
+      constraints: [],
+    };
+
+    const ipadRow = createDeviceViewportRow(ipad, constraints, {
+      ...defaultSettings,
+      browser: 'safari',
+      keyboardMode: 'open',
+    });
+    const desktopRow = createDeviceViewportRow(desktop, constraints, {
+      ...defaultSettings,
+      browser: 'safari',
+      keyboardMode: 'open',
+    });
+
+    expect(
+      ipadRow.result.appliedConstraints.find((constraint) => constraint.id === 'keyboard')
+        ?.heightDip,
+    ).toBe(320);
+    expect(
+      desktopRow.result.appliedConstraints.some((constraint) => constraint.id === 'keyboard'),
+    ).toBe(false);
   });
 });

@@ -1,5 +1,6 @@
+import { BrowserIcon, OsIcon } from '../../shared/ui/PlatformIcon';
 import { DevToolsGuide } from '../devtools/DevToolsGuide';
-import { BROWSER_LABELS, CONSTRAINT_LABELS } from '../profiles/constraintCatalog';
+import { CONSTRAINT_LABELS } from '../profiles/constraintCatalog';
 import { DeviceWireframe } from './DeviceWireframe';
 import { type DeviceViewportRow, formatSize } from './deviceViewports';
 import { normalizeTestUrl } from './testUrl';
@@ -28,8 +29,11 @@ export function DeviceRow({ row, isExpanded, onToggle, onOpenCanvas, testUrl }: 
           <span className="device-row__identity">
             <span className="device-row__label">{profile.label}</span>
             <span className="device-row__meta">
-              {formatOsName(profile.os.name)} · {BROWSER_LABELS[row.browser]} · screen{' '}
-              {formatSize(profile.screen)} · {profile.dpr}x
+              <OsIcon os={profile.os.name} />
+              <BrowserIcon browser={row.browser} />
+              <span>
+                · screen {formatSize(profile.screen)} · {profile.dpr}x
+              </span>
             </span>
           </span>
           <span className="device-row__viewport">
@@ -49,8 +53,8 @@ export function DeviceRow({ row, isExpanded, onToggle, onOpenCanvas, testUrl }: 
           className={row.isVerified ? 'badge badge--verified' : 'badge'}
           title={
             row.isVerified
-              ? 'Confirmed by a physical measurement.'
-              : 'Calculated from the constraint dataset, not yet confirmed on hardware.'
+              ? 'Confirmed by a measurement on a real device or a real-device simulator.'
+              : 'Calculated from the constraint dataset, not yet confirmed by a measurement.'
           }
         >
           {row.isVerified ? 'verified' : 'estimate'}
@@ -102,8 +106,8 @@ export function DeviceRow({ row, isExpanded, onToggle, onOpenCanvas, testUrl }: 
                         <dt>
                           Scrollbar
                           <small>
-                            Media queries and vw still see {result.viewport.width} — only the
-                            layout narrows.
+                            Media queries and vw still see {result.viewport.width} — only the layout
+                            narrows.
                           </small>
                         </dt>
                         <dd>−{result.scrollbar.heightDip} width</dd>
@@ -136,8 +140,8 @@ export function DeviceRow({ row, isExpanded, onToggle, onOpenCanvas, testUrl }: 
                         not your page. Once the bottom toolbar hides while scrolling, the home
                         indicator can overlap your content — pad fixed bottom UI with
                         env(safe-area-inset-bottom). The full insets (top{' '}
-                        {profile.safeAreaInsets?.top}, bottom {profile.safeAreaInsets?.bottom})
-                        only apply fullscreen or in installed PWAs.
+                        {profile.safeAreaInsets?.top}, bottom {profile.safeAreaInsets?.bottom}) only
+                        apply fullscreen or in installed PWAs.
                       </li>
                     ) : null}
                     {profile.notes ? <li>{profile.notes}</li> : null}
@@ -163,17 +167,4 @@ function hasSafeArea(profile: DeviceViewportRow['profile']): boolean {
   const insets = profile.safeAreaInsets;
 
   return Boolean(insets && (insets.top > 0 || insets.bottom > 0));
-}
-
-function formatOsName(os: string): string {
-  const names: Record<string, string> = {
-    macos: 'macOS',
-    windows: 'Windows',
-    ios: 'iOS',
-    android: 'Android',
-    linux: 'Linux',
-    chromeos: 'ChromeOS',
-  };
-
-  return names[os] ?? os;
 }

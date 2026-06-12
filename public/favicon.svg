@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 19">
+  <style>
+    .outline rect { fill: none; stroke: #047857; }
+    .fill rect { fill: #047857; }
+    @media (prefers-color-scheme: dark) {
+      .outline rect { stroke: #4ade80; }
+      .fill rect { fill: #4ade80; }
+    }
+  </style>
+  <g class="outline">
+    <rect height="3" width="3" x="0.5" y="0.5"/><rect height="3" width="3" x="5.5" y="0.5"/><rect height="3" width="3" x="10.5" y="0.5"/><rect height="3" width="3" x="15.5" y="0.5"/>
+    <rect height="3" width="3" x="0.5" y="15.5"/><rect height="3" width="3" x="5.5" y="15.5"/><rect height="3" width="3" x="10.5" y="15.5"/><rect height="3" width="3" x="15.5" y="15.5"/>
+  </g>
+  <g class="fill">
+    <rect height="4" width="4" x="0" y="5"/><rect height="4" width="4" x="5" y="5"/><rect height="4" width="4" x="10" y="5"/><rect height="4" width="4" x="15" y="5"/>
+    <rect height="4" width="4" x="0" y="10"/><rect height="4" width="4" x="5" y="10"/><rect height="4" width="4" x="10" y="10"/><rect height="4" width="4" x="15" y="10"/>
+  </g>
+</svg>

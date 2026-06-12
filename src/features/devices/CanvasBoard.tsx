@@ -10,16 +10,18 @@ import {
   useRef,
   useState,
 } from 'react';
+import { BrandLockup } from '../../shared/ui/BrandLockup';
 import {
   BROWSER_LABELS,
   BROWSER_OPTIONS,
+  type KeyboardMode,
   type OsBarPosition,
   type ScrollbarMode,
 } from '../profiles/constraintCatalog';
 import type { BrowserName } from '../profiles/profile.types';
-import type { FormFactorFilter } from '../profiles/urlState';
+import { CANVAS_PARAM, type FormFactorFilter, TEST_URL_PARAM } from '../profiles/urlState';
 import { type DeviceViewportRow, formatSize, type SimulationSettings } from './deviceViewports';
-import { normalizeTestUrl, PLACEHOLDER_PAGE_HTML } from './testUrl';
+import { createPlaceholderPageHtml, normalizeTestUrl } from './testUrl';
 
 /** Gap between frames in canvas coordinates (CSS px at 100 % zoom). */
 const FRAME_GAP = 120;
@@ -262,11 +264,7 @@ export function CanvasBoard({
       role="dialog"
     >
       <header className="canvas-board__toolbar">
-        <div className="canvas-board__title">
-          <a href={import.meta.env.BASE_URL} title="Back to the full reference">
-            <strong>Effective Viewport</strong>
-          </a>
-        </div>
+        <BrandLockup tagline="Check what really fits above the fold." />
         <div className="canvas-board__settings">
           {singleDeviceLabel ? null : (
             <label className="canvas-board__setting">
@@ -337,10 +335,29 @@ export function CanvasBoard({
               <option value="off">Off</option>
             </select>
           </label>
+          <label
+            className="canvas-board__setting"
+            title="Simulates a focused input with the native on-screen keyboard up — phones and tablets lose the keyboard height while typing."
+          >
+            <span>Keyboard</span>
+            <select
+              className="canvas-board__select"
+              onChange={(event) =>
+                onSettingsChange({ keyboardMode: event.target.value as KeyboardMode })
+              }
+              value={settings.keyboardMode}
+            >
+              <option value="closed">Closed</option>
+              <option value="open">Open</option>
+            </select>
+          </label>
           <label className="canvas-board__setting">
             <span>Test URL</span>
             <input
+              autoCapitalize="off"
+              autoCorrect="off"
               className="canvas-board__url"
+              inputMode="url"
               onBlur={() => onTestUrlChange(draftUrl)}
               onChange={(event) => setDraftUrl(event.target.value)}
               onKeyDown={(event) => {
@@ -348,8 +365,9 @@ export function CanvasBoard({
                   onTestUrlChange(draftUrl);
                 }
               }}
-              placeholder="https://example.com"
-              type="url"
+              placeholder="your-website.com"
+              spellCheck={false}
+              type="text"
               value={draftUrl}
             />
           </label>
@@ -450,10 +468,7 @@ export function CanvasBoard({
                   style={{ top: section.top - SECTION_GAP / 2, width: contentWidth }}
                 />
               ) : null}
-              <h2
-                className="canvas-section__title"
-                style={{ top: section.top - SECTION_GAP / 2 }}
-              >
+              <h2 className="canvas-section__title" style={{ top: section.top - SECTION_GAP / 2 }}>
                 {section.label}
               </h2>
             </Fragment>
@@ -485,6 +500,9 @@ const CanvasFrames = memo(function CanvasFrames({
   );
 });
 
+/** How long the share button shows its "copied" confirmation. */
+const SHARE_FEEDBACK_MS = 1600;
+
 function CanvasDeviceFrame({
   placement,
   testUrl,
@@ -493,9 +511,39 @@ function CanvasDeviceFrame({
   testUrl: string | null;
 }) {
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const [isLinkCopied, setIsLinkCopied] = useState(false);
   const { row, x, y, width, height } = placement;
   const sizeLabel = formatSize(row.result.viewport);
   const simulatedScrollbar = !isUnlocked ? row.result.scrollbar : null;
+
+  // Same deep link as the ↗ button on the homepage — the URL opens the
+  // canvas with just this device, so a shared link leads straight back here.
+  // The test URL is set explicitly: the address bar updates debounced, so it
+  // may lag behind what the frames are actually showing.
+  const createShareUrl = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set(CANVAS_PARAM, row.profile.id);
+
+    if (testUrl) {
+      url.searchParams.set(TEST_URL_PARAM, testUrl);
+    } else {
+      url.searchParams.delete(TEST_URL_PARAM);
+    }
+
+    return url.toString();
+  };
+
+  const copyShareLink = () => {
+    navigator.clipboard
+      .writeText(createShareUrl())
+      .then(() => {
+        setIsLinkCopied(true);
+        window.setTimeout(() => setIsLinkCopied(false), SHARE_FEEDBACK_MS);
+      })
+      // Clipboard access can be denied (unfocused document, permissions) —
+      // without the confirmation the user simply retries.
+      .catch(() => {});
+  };
 
   return (
     <div className="canvas-frame" style={{ left: x, top: y, width, height }}>
@@ -520,7 +568,14 @@ function CanvasDeviceFrame({
         height={height}
         title={`${row.profile.label} — ${sizeLabel}`}
         width={width}
-        {...(testUrl ? { src: testUrl } : { srcDoc: PLACEHOLDER_PAGE_HTML })}
+        {...(testUrl
+          ? { src: testUrl }
+          : {
+              srcDoc: createPlaceholderPageHtml({
+                deviceLabel: row.profile.label,
+                browserLabel: BROWSER_LABELS[row.browser],
+              }),
+            })}
       />
       {/* While locked the page cannot scroll, so no real scrollbar exists —
           draw the simulated one instead. Unlocking hands the edge back to
@@ -586,6 +641,71 @@ function CanvasDeviceFrame({
           </svg>
         )}
       </button>
+      <button
+        aria-label={`Copy a shareable link to ${row.profile.label}`}
+        className={
+          isLinkCopied ? 'canvas-frame__share canvas-frame__share--copied' : 'canvas-frame__share'
+        }
+        onClick={copyShareLink}
+        title={
+          isLinkCopied
+            ? 'Link copied'
+            : `Copy a shareable link — opens just ${row.profile.label} at ${sizeLabel}.`
+        }
+        type="button"
+      >
+        {isLinkCopied ? (
+          <svg aria-hidden="true" fill="none" height="14" viewBox="0 0 16 16" width="14">
+            <path
+              d="M3.5 8.5l3 3 6-6.5"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
+          </svg>
+        ) : (
+          <svg aria-hidden="true" fill="none" height="14" viewBox="0 0 16 16" width="14">
+            <path d="M6.5 9.5l3-3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5" />
+            <path
+              d="M7.25 4.75l.9-.9a2.65 2.65 0 0 1 3.75 3.75l-.9.9"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M8.75 11.25l-.9.9A2.65 2.65 0 0 1 4.1 8.4l.9-.9"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="1.5"
+            />
+          </svg>
+        )}
+      </button>
+      <a
+        className="canvas-frame__open"
+        href={createShareUrl()}
+        rel="noreferrer"
+        target="_blank"
+        title={`Open just ${row.profile.label} at ${sizeLabel} in a new window.`}
+      >
+        <span className="visually-hidden">Open {row.profile.label} in a new window</span>
+        <svg aria-hidden="true" fill="none" height="14" viewBox="0 0 16 16" width="14">
+          <path
+            d="M6.5 4.5H4.75A1.25 1.25 0 0 0 3.5 5.75v5.5a1.25 1.25 0 0 0 1.25 1.25h5.5a1.25 1.25 0 0 0 1.25-1.25V9.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M9.5 3.5H12.5V6.5M12 4l-4.5 4.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+          />
+        </svg>
+      </a>
     </div>
   );
 }

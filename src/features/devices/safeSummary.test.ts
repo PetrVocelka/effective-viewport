@@ -42,25 +42,59 @@ describe('createSafeViewportSummary', () => {
 
     expect(summary).toHaveLength(1);
     expect(summary[0]).toMatchObject({
-      id: 'mobile',
+      id: 'mobile-portrait',
       width: 360,
       height: 459,
       maxHeight: 459,
-      widthSource: 'Narrow phone',
-      heightSource: 'Short phone',
+      widthSource: { deviceLabel: 'Narrow phone', browser: 'chrome' },
+      heightSource: { deviceLabel: 'Short phone', browser: 'chrome' },
       deviceCount: 2,
     });
   });
 
-  it('splits desktops into small (≤1440), regular, large (1920+), and XL (2560+) buckets', () => {
+  it('takes the worst case across browsers of the same device, counting the device once', () => {
+    const chromeRow = createRow({ label: 'Phone' }, { width: 360, height: 700 });
+    const samsungRow = {
+      ...createRow({ label: 'Phone' }, { width: 360, height: 644 }),
+      browser: 'samsungInternet' as const,
+    };
+
+    const summary = createSafeViewportSummary([chromeRow, samsungRow]);
+
+    expect(summary[0]).toMatchObject({
+      height: 644,
+      heightSource: { deviceLabel: 'Phone', browser: 'samsungInternet' },
+      deviceCount: 1,
+    });
+  });
+
+  it('splits phones and tablets by orientation', () => {
+    const summary = createSafeViewportSummary([
+      createRow({ label: 'Phone portrait' }, { width: 360, height: 700 }),
+      createRow(
+        { label: 'Phone landscape', orientation: 'landscape' },
+        { width: 800, height: 240 },
+      ),
+      createRow({ label: 'Tablet portrait', formFactor: 'tablet' }, { width: 744, height: 1053 }),
+      createRow(
+        { label: 'Tablet landscape', formFactor: 'tablet', orientation: 'landscape' },
+        { width: 1194, height: 754 },
+      ),
+    ]);
+
+    expect(summary.map((entry) => entry.id)).toEqual([
+      'mobile-portrait',
+      'mobile-landscape',
+      'tablet-portrait',
+      'tablet-landscape',
+    ]);
+  });
+
+  it('splits desktops into small (≤1440), medium, large (1920+), and XL (2560+) buckets', () => {
     const summary = createSafeViewportSummary([
       createRow(
         { label: 'Budget notebook', formFactor: 'desktop', screen: { width: 1366, height: 768 } },
         { width: 1366, height: 620 },
-      ),
-      createRow(
-        { label: 'iPad landscape', formFactor: 'tablet', orientation: 'landscape' },
-        { width: 1366, height: 926 },
       ),
       createRow(
         { label: 'MacBook 16', formFactor: 'desktop', screen: { width: 1728, height: 1117 } },
@@ -77,15 +111,14 @@ describe('createSafeViewportSummary', () => {
     ]);
 
     expect(summary.map((entry) => entry.id)).toEqual([
-      'small-desktop',
-      'desktop',
-      'large-desktop',
-      'xl-desktop',
+      'desktop-small',
+      'desktop-medium',
+      'desktop-large',
+      'desktop-xl',
     ]);
-    expect(summary[0]).toMatchObject({ width: 1366, height: 620, deviceCount: 2 });
+    expect(summary[0]).toMatchObject({ width: 1366, height: 620, deviceCount: 1 });
     expect(summary[1]).toMatchObject({ width: 1728, height: 985, deviceCount: 1 });
-    // The 1920+ bucket includes QHD; its worst case is still the FHD monitor.
-    expect(summary[2]).toMatchObject({ width: 1920, height: 932, deviceCount: 2 });
+    expect(summary[2]).toMatchObject({ width: 1920, height: 932, deviceCount: 1 });
     expect(summary[3]).toMatchObject({ width: 2560, height: 1292, deviceCount: 1 });
   });
 
@@ -94,6 +127,6 @@ describe('createSafeViewportSummary', () => {
       createRow({ label: 'Phone' }, { width: 393, height: 699 }),
     ]);
 
-    expect(summary.map((entry) => entry.id)).toEqual(['mobile']);
+    expect(summary.map((entry) => entry.id)).toEqual(['mobile-portrait']);
   });
 });

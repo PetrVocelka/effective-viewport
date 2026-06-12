@@ -16,12 +16,18 @@ const queuedEntry: QueuedMeasurement = {
     screenHeight: 1920,
     availableWidth: 1080,
     availableHeight: 1920,
+    smallViewportHeight: 1820,
+    largeViewportHeight: 1876,
     devicePixelRatio: 1,
     orientation: 'portrait',
     measuredAt: '2026-06-10T11:50:00.000Z',
     userAgent: 'Mozilla/5.0 (Linux; Android 13) Chrome/130.0.0.0 Mobile Safari/537.36',
     detectedOS: 'android',
     detectedBrowser: 'chrome',
+    osVersion: '13',
+    browserVersion: '130.0.6723.58',
+    versionSource: 'clientHints',
+    environment: 'hardware',
     estimatedOsChromeHeight: 0,
     estimatedBrowserChromeHeight: 100,
     scrollbarWidth: 0,
@@ -34,7 +40,12 @@ describe('createMeasurementEntry', () => {
   it('maps the queued measurement to a devices.json measurement entry', () => {
     expect(createMeasurementEntry(queuedEntry)).toEqual({
       effectiveViewport: { width: 1080, height: 1820 },
+      smallViewportHeight: 1820,
+      largeViewportHeight: 1876,
       measuredAt: '2026-06-10T11:50:00.000Z',
+      osVersion: '13',
+      browserVersion: '130.0.6723.58',
+      environment: 'hardware',
       verified: true,
       source: 'field-measurement',
       notes: 'Mall kiosk Praha',
@@ -55,7 +66,7 @@ describe('createDeviceProfileEntry', () => {
     expect(profile.id).toBe('mall-kiosk-praha');
     expect(profile.formFactor).toBe('desktop');
     expect(profile.aspectRatio).toBe('9:16');
-    expect(profile.os.name).toBe('android');
+    expect(profile.os).toEqual({ name: 'android', version: '13' });
     expect(profile.browser).toEqual({ name: 'chrome', version: '130' });
     expect(profile.screen).toEqual({ width: 1080, height: 1920 });
     expect(profile.constraints).toEqual(['topChrome']);

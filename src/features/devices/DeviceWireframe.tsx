@@ -1,8 +1,8 @@
 import { type PointerEvent, useState } from 'react';
-import { CONSTRAINT_LABELS } from '../profiles/constraintCatalog';
+import { BROWSER_LABELS, CONSTRAINT_LABELS } from '../profiles/constraintCatalog';
 import type { ConstraintId, ResolvedConstraint } from '../profiles/profile.types';
 import type { DeviceViewportRow } from './deviceViewports';
-import { PLACEHOLDER_PAGE_HTML } from './testUrl';
+import { createPlaceholderPageHtml } from './testUrl';
 
 const MAX_FRAME_HEIGHT = 360;
 const MAX_FRAME_WIDTH = 480;
@@ -117,7 +117,14 @@ export function DeviceWireframe({ row, previewUrl }: DeviceWireframeProps) {
               tabIndex={-1}
               title={`Preview at ${shownViewport.width} × ${shownViewport.height}`}
               width={shownViewport.width}
-              {...(previewUrl ? { src: previewUrl } : { srcDoc: PLACEHOLDER_PAGE_HTML })}
+              {...(previewUrl
+                ? { src: previewUrl }
+                : {
+                    srcDoc: createPlaceholderPageHtml({
+                      deviceLabel: profile.label,
+                      browserLabel: BROWSER_LABELS[row.browser],
+                    }),
+                  })}
             />
             {result.scrollbar ? (
               <div
@@ -202,12 +209,26 @@ function collectLegendItems(
     });
   }
 
-  if (segments.some((segment) => !segment.isOsBar && segment.id !== 'bookmarksBar')) {
+  if (
+    segments.some(
+      (segment) => !segment.isOsBar && segment.id !== 'bookmarksBar' && segment.id !== 'keyboard',
+    )
+  ) {
     items.push({
       id: 'browser',
       label: 'Browser UI',
       description: 'Address bar, tabs, and toolbars — always visible part.',
       swatchClass: 'wireframe__bar--browser',
+    });
+  }
+
+  if (segments.some((segment) => segment.id === 'keyboard')) {
+    items.push({
+      id: 'keyboard',
+      label: 'On-screen keyboard',
+      description:
+        'Opt-in: a focused input with the native keyboard up — toggle it in the settings above.',
+      swatchClass: 'wireframe__bar--keyboard',
     });
   }
 
@@ -356,6 +377,10 @@ function WireframeSegment({ segment, scale, isScrolled }: WireframeSegmentProps)
 function barVariantClass(segment: EdgeSegment): string {
   if (segment.id === 'bookmarksBar') {
     return 'wireframe__bar--bookmarks';
+  }
+
+  if (segment.id === 'keyboard') {
+    return 'wireframe__bar--keyboard';
   }
 
   return segment.isOsBar ? 'wireframe__bar--os' : 'wireframe__bar--browser';

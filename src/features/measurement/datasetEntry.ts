@@ -12,12 +12,19 @@ import type { QueuedMeasurement } from './measurementQueue';
  * in devices.json.
  */
 export function createMeasurementEntry(entry: QueuedMeasurement): ProfileMeasurement {
+  const { measurement } = entry;
+
   return {
     effectiveViewport: {
-      width: entry.measurement.innerWidth,
-      height: entry.measurement.innerHeight,
+      width: measurement.innerWidth,
+      height: measurement.innerHeight,
     },
-    measuredAt: entry.measurement.measuredAt,
+    smallViewportHeight: measurement.smallViewportHeight ?? undefined,
+    largeViewportHeight: measurement.largeViewportHeight ?? undefined,
+    measuredAt: measurement.measuredAt,
+    osVersion: measurement.osVersion ?? undefined,
+    browserVersion: measurement.browserVersion ?? undefined,
+    environment: measurement.environment,
     verified: entry.edgeToEdgeConfirmed,
     source: 'field-measurement',
     notes: entry.deviceName || undefined,
@@ -44,13 +51,18 @@ export function createDeviceProfileEntry(entry: QueuedMeasurement): DeviceProfil
     aspectRatio: formatAspectRatio(measurement.screenWidth, measurement.screenHeight),
     dpr: measurement.devicePixelRatio,
     orientation: measurement.orientation,
-    os: { name: os },
-    browser: { name: browser, version: detectBrowserVersion(measurement.userAgent, browser) },
+    os: { name: os, version: toMajorVersion(measurement.osVersion) },
+    browser: { name: browser, version: toMajorVersion(measurement.browserVersion) },
     screen: { width: measurement.screenWidth, height: measurement.screenHeight },
     constraints: getDefaultConstraints(os, browser),
     measurements: [createMeasurementEntry(entry)],
     notes: 'Created from a field measurement; review heuristic fields before merging.',
   };
+}
+
+/** Profile-level versions stay coarse (major only); exact versions live on measurements. */
+function toMajorVersion(version: string | null): string | undefined {
+  return version?.split('.')[0] || undefined;
 }
 
 function guessFormFactor(width: number, height: number): FormFactor {
@@ -81,19 +93,6 @@ function formatAspectRatio(width: number, height: number): string {
 
 function greatestCommonDivisor(left: number, right: number): number {
   return right === 0 ? left : greatestCommonDivisor(right, left % right);
-}
-
-function detectBrowserVersion(userAgent: string, browser: BrowserName): string | undefined {
-  const patterns: Record<BrowserName, RegExp> = {
-    chrome: /Chrome\/(\d+)/,
-    edge: /Edg\/(\d+)/,
-    firefox: /Firefox\/(\d+)/,
-    safari: /Version\/(\d+)/,
-    samsungInternet: /SamsungBrowser\/(\d+)/,
-  };
-  const match = patterns[browser].exec(userAgent);
-
-  return match?.[1];
 }
 
 function slugify(value: string): string {

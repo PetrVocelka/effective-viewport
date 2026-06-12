@@ -15,7 +15,8 @@ export type ConstraintId =
   | 'shelf'
   | 'topChrome'
   | 'bookmarksBar'
-  | 'scrollbar';
+  | 'scrollbar'
+  | 'keyboard';
 
 export interface Size {
   width: number;
@@ -41,7 +42,15 @@ export interface ConstraintOverride {
 
 export interface ProfileMeasurement {
   effectiveViewport: Size;
+  /** 100svh at measurement time — all dynamic browser UI expanded. */
+  smallViewportHeight?: number;
+  /** 100lvh at measurement time — dynamic browser UI collapsed. */
+  largeViewportHeight?: number;
   measuredAt: string;
+  /** Exact platform versions the measurement was taken on — chrome heights change between releases. */
+  osVersion?: string;
+  browserVersion?: string;
+  environment?: 'hardware' | 'emulator';
   verified: boolean;
   source?: string;
   notes?: string;

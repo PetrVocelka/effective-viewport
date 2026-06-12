@@ -33,6 +33,7 @@ function formatConstraintLabel({ id, axis }: Pick<ResolvedConstraint, 'id' | 'ax
     topChrome: 'Browser UI',
     bookmarksBar: 'Bookmarks',
     scrollbar: 'Scrollbar',
+    keyboard: 'Keyboard',
   };
 
   // OS bars docked to the side eat width instead of height — call it out.

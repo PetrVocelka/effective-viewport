@@ -12,3 +12,5 @@ node_modules
 *.local
 .vite
 coverage
+# Raw automation runs — promoted into PRs selectively, never committed wholesale.
+measurements

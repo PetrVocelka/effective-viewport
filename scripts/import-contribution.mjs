@@ -82,7 +82,12 @@ function createMeasurementEntry(payload, issue) {
 
   return {
     effectiveViewport: { width: viewport.innerWidth, height: viewport.innerHeight },
+    smallViewportHeight: viewport.smallViewportHeight ?? undefined,
+    largeViewportHeight: viewport.largeViewportHeight ?? undefined,
     measuredAt: viewport.measuredAt,
+    osVersion: viewport.osVersion ?? undefined,
+    browserVersion: viewport.browserVersion ?? undefined,
+    environment: viewport.environment ?? undefined,
     verified: Boolean(payload.edgeToEdgeConfirmed),
     source: `github-issue-${issue}`,
     notes: payload.recommendedProfile?.name || undefined,
@@ -103,13 +108,18 @@ function createProfile(payload, measurement) {
     aspectRatio: formatAspectRatio(viewport.screenWidth, viewport.screenHeight),
     dpr: viewport.devicePixelRatio,
     orientation: viewport.orientation,
-    os: { name: os },
-    browser: { name: browser },
+    os: { name: os, version: toMajorVersion(viewport.osVersion) },
+    browser: { name: browser, version: toMajorVersion(viewport.browserVersion) },
     screen: { width: viewport.screenWidth, height: viewport.screenHeight },
     constraints: Array.isArray(payload.visibleChrome) ? payload.visibleChrome : ['topChrome'],
     measurements: [measurement],
     notes: 'Imported from a field measurement; review heuristic fields before merging.',
   };
+}
+
+/** Profile-level versions stay coarse (major only); exact versions live on measurements. */
+function toMajorVersion(version) {
+  return version?.split('.')[0] || undefined;
 }
 
 function guessFormFactor(width, height) {

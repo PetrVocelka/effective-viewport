@@ -1,6 +1,8 @@
 import {
   getDefaultConstraints,
+  hasOnScreenKeyboard,
   hasSpaceTakingScrollbar,
+  type KeyboardMode,
   type OsBarPosition,
   type ScrollbarMode,
   SIDE_DOCKABLE_CONSTRAINTS,
@@ -39,6 +41,8 @@ export interface SimulationSettings {
   showBookmarksBar: boolean;
   osBarPosition: OsBarPosition;
   scrollbarMode: ScrollbarMode;
+  /** Opt-in: simulate a focused input with the native keyboard up (touch devices). */
+  keyboardMode: KeyboardMode;
 }
 
 export function createDeviceViewportRow(
@@ -46,7 +50,7 @@ export function createDeviceViewportRow(
   constraints: ConstraintDataset,
   settings: SimulationSettings,
 ): DeviceViewportRow {
-  const { browser, showBookmarksBar, osBarPosition, scrollbarMode } = settings;
+  const { browser, showBookmarksBar, osBarPosition, scrollbarMode, keyboardMode } = settings;
   const simulationProfile: DeviceProfile =
     browser === profile.browser.name
       ? profile
@@ -59,6 +63,10 @@ export function createDeviceViewportRow(
   const enabledConstraints = getDefaultConstraints(profile.os.name, browser, {
     includeBookmarksBar: showBookmarksBar,
   });
+
+  if (hasOnScreenKeyboard(profile.formFactor, keyboardMode)) {
+    enabledConstraints.push('keyboard');
+  }
   const horizontalConstraints =
     osBarPosition === 'side'
       ? enabledConstraints.filter((id) => SIDE_DOCKABLE_CONSTRAINTS.includes(id))

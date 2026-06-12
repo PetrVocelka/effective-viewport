@@ -133,6 +133,64 @@
           ]
         }
       ]
+    },
+    "ios": {
+      "keyboard": [
+        {
+          "appliesTo": { "formFactor": "tablet" },
+          "measurements": [
+            {
+              "heightDip": 320,
+              "bottomHeightDip": 320,
+              "measuredAt": "2026-06-12T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "iPad full-width keyboard with the shortcut bar, portrait. Floating or split keyboards take less."
+            }
+          ]
+        },
+        {
+          "measurements": [
+            {
+              "heightDip": 291,
+              "bottomHeightDip": 291,
+              "measuredAt": "2026-06-12T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Default QWERTY with the QuickType bar on Face ID iPhones, portrait. Smaller on iPhone SE (~260 dip)."
+            }
+          ]
+        }
+      ]
+    },
+    "android": {
+      "keyboard": [
+        {
+          "appliesTo": { "formFactor": "tablet" },
+          "measurements": [
+            {
+              "heightDip": 310,
+              "bottomHeightDip": 310,
+              "measuredAt": "2026-06-12T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Gboard on tablets, portrait, including the suggestion strip. Varies with user height settings."
+            }
+          ]
+        },
+        {
+          "measurements": [
+            {
+              "heightDip": 280,
+              "bottomHeightDip": 280,
+              "measuredAt": "2026-06-12T00:00:00Z",
+              "verified": false,
+              "source": "estimate",
+              "notes": "Gboard default height with the suggestion strip, portrait. Varies by keyboard app and user settings."
+            }
+          ]
+        }
+      ]
     }
   },
   "browser": {

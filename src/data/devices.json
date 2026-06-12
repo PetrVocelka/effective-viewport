@@ -934,7 +934,7 @@
         "left": 0
       },
       "measurements": [],
-      "notes": "Safari in half Split View on the 13\" iPad: 678 dip wide \u2014 below the classic 768 tablet breakpoint, so a large tablet suddenly serves the mobile layout. The \u2153 split is harsher still: 375 dip, plain iPhone width."
+      "notes": "Safari in half Split View on the 13\" iPad held in landscape: half of the 1366 dip screen minus the divider leaves 678 dip \u2014 below the classic 768 tablet breakpoint, so a large tablet suddenly serves the mobile layout. The window itself is taller than wide, so CSS orientation reports portrait. The \u2153 split is harsher still: 375 dip, plain iPhone width."
     },
     {
       "id": "ultrawide-3440-1440",
